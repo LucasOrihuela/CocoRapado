@@ -1,0 +1,197 @@
+﻿@model IEnumerable<Cocorapado.Models.ProfesionalesPorSucursales>
+@{
+    ViewBag.Title = "Administrar Profesionales por Sucursal";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com;">
+    <title>Administrar Profesionales por Sucursal</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            background: #343a40;
+        }
+
+            .sidebar a {
+                color: #fff;
+            }
+
+                .sidebar a:hover {
+                    background: #495057;
+                }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        #alertContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: auto;
+            max-width: 300px;
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/script-abmProfesionalesPorSucursal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filterInput').on('input', function () {
+                var value = $(this).val().toLowerCase();
+                $('#relacionesTableBody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="text-white text-center">Menú</h2>
+        <hr class="my-4">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMProfesionales")">Profesionales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMSucursales")">Sucursales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServicios")">Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "ABMServiciosPorProfesional")">Servicios por Profesional</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "ABMProfesionalesPorSucursal")">Profesionales por Sucursal</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Dashboard")">Estadísticas</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container vh-100 d-flex flex-column justify-content-start content centered">
+        <h2 class="text-center mt-4">Administrar Profesionales por Sucursal</h2>
+
+        <div class="d-flex justify-content-center align-items-center flex-grow-1">
+            <div class="card w-75">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#crearRelacionModal">Agregar</button>
+                        <input type="text" id="filterInput" class="form-control mt-2" placeholder="Buscar..." />
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Sucursal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="relacionesTableBody">
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var relacion in Model)
+                                {
+                                    <tr>
+                                        <td>@relacion.NombreProfesional</td>
+                                        <td>@relacion.ApellidoProfesional</td>
+                                        <td>@relacion.NombreSucursal</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="eliminarRelacion(@relacion.IdProfesional, @relacion.IdSucursal)">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center">No hay relaciones disponibles.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear una nueva relación -->
+    <div class="modal fade" id="crearRelacionModal" tabindex="-1" role="dialog" aria-labelledby="crearRelacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearRelacionModalLabel">Asignar profesional a sucursal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearRelacionForm" method="post" action="/ABM/ABMProfesionalesPorSucursal/CrearRelacion">
+                        <div class="form-group">
+                            <label for="IdProfesional">Seleccionar Profesional</label>
+                            <select class="form-control" id="selectProfesional" name="IdProfesional" required>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="IdSucursal">Seleccionar Sucursal</label>
+                            <select class="form-control" id="selectSucursal" name="IdSucursal" required>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Asignar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas realizar esta acción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+</body>
+</html>

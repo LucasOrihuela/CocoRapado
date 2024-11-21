@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.UsuarioId = Context.Session.GetString("UsuarioId");
+}
+<!-- Eliminar @await Html.PartialAsync("_Navbar") si usas <partial name="_Navbar" /> -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Importar Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Importar Bootstrap CSS (versión 5) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Importar Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <header>
+        <!-- Renderizar solo una vez la navbar -->
+        <partial name="_Navbar" />
+    </header>
+
+    <main role="main" class="content">
+        @RenderBody() <!-- Contenido de las vistas específicas -->
+    </main>
+
+    <footer class="bg-dark text-white text-center py-4">
+        <div>
+            <h5 style="margin-bottom: 1rem;">Síguenos en nuestras redes sociales</h5>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/cocorapadook?igsh=Z2lxdnNtY2d0a2w4" target="_blank" class="text-white mx-3">
+                    <i class="fab fa-instagram fa-2x"></i>
+                </a>
+                <a href='@Html.Raw("https://www.tiktok.com/@cocorapadook?_t=8rLWiicJJVB&_r=1")' target="_blank" class="text-white mx-3">
+                    <i class="fab fa-tiktok fa-2x"></i>
+                </a>
+            </div>
+        </div>
+        <div class="mt-3">
+            <p>&copy; 2024 by Lucas Orihuela. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Importar scripts de Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <!-- Importar Bootstrap JS (versión 5) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* Fondo oscuro para el cuerpo */
+body {
+    background-color: #333 !important;
+}
+
+/* Contenedor del calendario */
+.calendar-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-bottom: 50px;
+}
+
+/* Título en dorado */
+.title {
+    color: #ffc107; /* Título dorado */
+    font-size: 2rem; /* Tamaño del título */
+    margin-bottom: 20px;
+}
+
+/* Estilo para el calendario */
+#calendario {
+    background-color: white; /* Fondo blanco para el calendario */
+    padding: 10px;
+    border-radius: 8px;
+}
+/* Estilo de los días */
+.day {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+    .day:hover {
+        background-color: #f0f0f0;
+    }
+
+/* Botón de reserva */
+#botonReservar {
+    padding: 10px 20px;
+    background-color: darkgrey;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    opacity: 0.6;
+    margin-top: 20px;
+    align-self: flex-end;
+}
+
+    #botonReservar.enabled {
+        background-color: #ffc107;
+        cursor: pointer;
+        opacity: 1;
+    }
+
+/* Horarios no disponibles */
+.blocked-hour {
+    background-color: #ffcccc;
+    opacity: 0.5;
+}
+
+/* Horarios disponibles */
+.available-hour {
+    background-color: #ccffcc;
+}
+
+/* Estilo para el modal de confirmación */
+#modalConfirmacionTurno {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.modal-content {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+    .modal-content h2 {
+        margin: 0 0 10px;
+    }
+
+    .modal-content p {
+        margin: 5px 0;
+    }
+
+/* Estilo para el modal de fondo */
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+.modal {
+    z-index: 1050 !important;
+}
+
+/* Clase para el modal de alerta */
+#alertContainer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: auto;
+    max-width: 300px;
+}
+/* Estilo para los nombres de los días de la semana */
+.fc-head .fc-day-header {
+    color: #333; /* Color de texto oscuro para los días de la semana */
+    font-weight: bold;
+}
+
+/* Estilo para los números de los días */
+.fc-day-number {
+    color: #333; /* Color oscuro para los números de los días */
+}
+
+/* Estilo para los eventos del calendario */
+.fc-event {
+    color: #333; /* Color oscuro para los eventos */
+}
+
+/* Estilo para los horarios (horas) */
+.fc-time {
+    color: #333; /* Color oscuro para los horarios */
+}
+
+/* Estilo para los días actuales (highlight) */
+.fc-today {
+    color: #333; /* Color de texto oscuro para el día actual */
+    background-color: white !important; /* Fondo blanco para el día actual */
+}

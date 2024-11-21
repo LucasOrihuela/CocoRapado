@@ -1,0 +1,247 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    scroll-behavior: smooth;
+}
+
+section {
+    height: 100vh; /* Cada sección ocupa toda la altura de la ventana */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.portada-section {
+    background-color: #141414;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    overflow: hidden;
+    height: auto;
+}
+
+    .portada-section img {
+        filter: brightness(0.8); /* Reduce el brillo al 70% */
+    }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0rem;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.col-md-12 {
+    flex-basis: 100%;
+}
+
+.col-md-4 {
+    flex-basis: 33.33%;
+}
+
+.card {
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    padding: 1rem;
+}
+
+    .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+.card-body {
+    padding: 20px 10px;
+}
+
+.card-title {
+    color: #ffc107;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #FFFFFF;
+}
+
+.btn {
+    background-color: #ffc107;
+    color: #222;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+    .btn:hover {
+        background-color: #444;
+    }
+
+.img-fluid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+h2 {
+    font-size: 4rem;
+    font-weight: lighter;
+    text-align: center;
+    color: #ffc107;
+    margin: 80px 0;
+}
+
+p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    width: 100vw;
+    position: relative;
+    left: 0;
+    margin-left: calc(-50vw + 50%);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px; /* Limita el contenido interno a un ancho razonable */
+    margin: 0 auto; /* Centra el contenido dentro del footer */
+    padding: 0 15px; /* Asegura que el contenido tenga espacio a los lados */
+}
+
+footer p {
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer li {
+    margin-bottom: 0.5rem;
+}
+
+/* Encapsulamos los estilos dentro de .new-card-section */
+.new-card-section {
+    font-family: Arial, sans-serif;
+    background-color: #141414;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Cambié esto a columna para que el título esté arriba */
+    align-items: center;
+    min-height: 100vh;
+}
+
+    .new-card-section .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .new-card-section .card {
+        width: 300px;
+        background-color: #333;
+        border-radius: 8px;
+        border-bottom-left-radius: 200px;
+        border-bottom-right-radius: 200px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        transition: transform 0.3s ease;
+        height: 400px;
+    }
+
+        .new-card-section .card:hover {
+            transform: translateY(-10px);
+        }
+
+    .new-card-section .card-image-container {
+        position: relative;
+        width: 100%;
+    }
+
+    .new-card-section .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .new-card-section .card-image-container::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #333 100%);
+        pointer-events: none;
+    }
+
+    .new-card-section .card-content {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .new-card-section .card-title {
+        font-size: 1.5em;
+        margin: 5px 0;
+    }
+
+    .new-card-section .favorite-icon {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        font-size: 2em;
+        cursor: pointer;
+        color: #ddd;
+        transition: color 0.3s ease, font-size 0.3s ease; /* Aseguramos transición del font-size */
+    }
+
+        /* Para el hover y cuando está activado como favorito */
+        .new-card-section .favorite-icon .star.favorited {
+            color: #f1c40f; /* Color dorado */
+            font-size: 2.5em; /* Aumentamos el tamaño de la estrella */
+        }
+
+        .new-card-section .favorite-icon .star {
+            color: #ddd;
+            font-size: 2em; /* Tamaño inicial */
+            transition: font-size 0.3s ease; /* Aseguramos transición suave en el tamaño */
+        }
+

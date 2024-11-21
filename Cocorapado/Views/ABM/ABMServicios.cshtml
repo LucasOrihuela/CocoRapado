@@ -1,0 +1,262 @@
+﻿@model IEnumerable<Cocorapado.Models.Servicio>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com;">
+    <title>Administrar Servicios</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            background: #343a40;
+        }
+
+            .sidebar a {
+                color: #fff;
+            }
+
+                .sidebar a:hover {
+                    background: #495057;
+                }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        #alertContainer {
+            position: fixed; /* Posición fija */
+            bottom: 20px; /* Distancia desde la parte inferior */
+            right: 20px; /* Distancia desde la derecha */
+            z-index: 1050; /* Asegúrate de que se muestre encima de otros elementos */
+            width: auto; /* Puedes ajustar el ancho según tus necesidades */
+            max-width: 300px; /* Máximo ancho para que no sea demasiado grande */
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/script-abmServicios.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filterInput').on('input', function () {
+                var value = $(this).val().toLowerCase();
+                $('#ServiciosTableBody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="text-white text-center">Menú</h2>
+        <hr class="my-4">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMProfesionales")">Profesionales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMSucursales")">Sucursales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServicios")">Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServiciosPorProfesional")">Servicios por Profesional</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "ABMProfesionalesPorSucursal")">Profesionales por Sucursal</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Dashboard")">Estadísticas</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container vh-100 d-flex flex-column justify-content-start centered">
+        <!-- Título centrado arriba -->
+        <h2 class="text-center mt-4">Administrar Servicios</h2>
+
+        <!-- Contenedor de la tarjeta -->
+        <div class="d-flex justify-content-center align-items-center flex-grow-1">
+            <div class="card w-100">
+                <!-- Cambiar w-75 a w-100 -->
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#crearServicioModal">Agregar Servicio</button>
+                        <input type="text" id="filterInput" class="form-control mt-2" placeholder="Buscar..." />
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Clase para ajustar el ancho de la tabla al contenido -->
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Duración (min)</th>
+                                    <th>Precio Min</th>
+                                    <th>Precio Max</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ServiciosTableBody">
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var servicio in Model)
+                                    {
+                                        <tr>
+                                            <td>@servicio.ServicioNombre</td>
+                                            <td>@servicio.ServicioDescripcion</td>
+                                            <td>@servicio.DuracionMinutos</td>
+                                            <td>@servicio.PrecioMin</td>
+                                            <td>@servicio.PrecioMax</td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <!-- Contenedor flexible para alinear los botones -->
+                                                    <a href="@Url.Content($"~/ABM/ABMServicios/Edit/{servicio.Id}")" class="btn btn-warning btn-sm mr-2"
+                                                       onclick="cargarDatosEdicion(@servicio.Id, '@servicio.ServicioNombre', '@servicio.ServicioDescripcion', @servicio.DuracionMinutos, @servicio.PrecioMin, @servicio.PrecioMax)"
+                                                       data-toggle="modal" data-target="#editarServicioModal">Editar</a>
+                                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="eliminarServicio(@servicio.Id)">Eliminar</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center">No hay servicios disponibles.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal para crear servicio -->
+    <div class="modal fade" id="crearServicioModal" tabindex="-1" role="dialog" aria-labelledby="crearServicioModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearServicioModalLabel">Agregar Servicio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearServicioForm" method="post" action="/ABM/ABMServicios/CrearServicio">
+                        <div class="form-group">
+                            <label for="servicioNombre">Nombre</label>
+                            <input type="text" class="form-control" id="servicioNombre" name="ServicioNombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="servicioDescripcion">Descripción</label>
+                            <textarea class="form-control" id="servicioDescripcion" name="ServicioDescripcion" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="duracionMinutos">Duración (min)</label>
+                            <input type="number" class="form-control" id="duracionMinutos" name="DuracionMinutos" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="precioMin">Precio Mínimo</label>
+                            <input type="number" class="form-control" id="precioMin" name="PrecioMin" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="precioMax">Precio Máximo</label>
+                            <input type="number" class="form-control" id="precioMax" name="PrecioMax" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Crear Servicio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar servicio -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Servicio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editServicioForm" method="post" action="/ABM/ABMServicios/Edit">
+                        <input type="hidden" id="editId" name="Id" />
+                        <div class="form-group">
+                            <label for="editServicioNombre">Nombre</label>
+                            <input type="text" class="form-control" id="editServicioNombre" name="ServicioNombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editServicioDescripcion">Descripción</label>
+                            <textarea class="form-control" id="editServicioDescripcion" name="ServicioDescripcion" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editDuracionMinutos">Duración (min)</label>
+                            <input type="number" class="form-control" id="editDuracionMinutos" name="DuracionMinutos" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrecioMin">Precio Mínimo</label>
+                            <input type="number" class="form-control" id="editPrecioMin" name="PrecioMin" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrecioMax">Precio Máximo</label>
+                            <input type="number" class="form-control" id="editPrecioMax" name="PrecioMax" required />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas realizar esta acción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+</body>
+</html>

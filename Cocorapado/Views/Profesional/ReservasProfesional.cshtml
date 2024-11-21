@@ -1,0 +1,147 @@
+﻿@model Cocorapado.Controllers.ReservasProfesionalViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas</title>
+
+    <link rel="stylesheet" href="@Url.Content("~/css/styles-mis-reservas.css")" />
+</head>
+<body>
+    <div class="container my-5">
+        <h2 class="text-center mb-4 mis-reservas-titulo">Mis Reservas</h2>
+
+        <!-- Pestañas para seleccionar reservas futuras o pasadas -->
+        <ul class="nav nav-tabs mb-3" id="reservas-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="futuras-tab" data-bs-toggle="tab" data-bs-target="#futuras" type="button" role="tab" aria-controls="futuras" aria-selected="true">
+                    Futuras
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pasadas-tab" data-bs-toggle="tab" data-bs-target="#pasadas" type="button" role="tab" aria-controls="pasadas" aria-selected="false">
+                    Pasadas
+                </button>
+            </li>
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content" id="reservas-tabContent">
+            <!-- Reservas Futuras -->
+            <div class="tab-pane fade show active" id="futuras" role="tabpanel" aria-labelledby="futuras-tab">
+                @if (Model.Reservas.Any(r => r.Fecha.Add(r.Hora) > DateTime.Now))
+                {
+                    <table class="table mis-reservas-tabla">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Duración</th>
+                                <th>Sucursal</th>
+                                <th>Cliente</th>
+                                <th>Código de turno</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var turno in Model.Reservas.Where(r => r.Fecha.Add(r.Hora) > DateTime.Now))
+                            {
+                                <tr>
+                                    <td class="@(turno.AusenteTurnoAnterior == 1 ? "bg-light-red" : "")">@turno.Fecha.ToString("dd/MM/yyyy")</td>
+                                    <td class="@(turno.AusenteTurnoAnterior == 1 ? "bg-light-red" : "")">@turno.Hora.ToString(@"hh\:mm")</td>
+                                    <td class="@(turno.AusenteTurnoAnterior == 1 ? "bg-light-red" : "")">@turno.DuracionMin min</td>
+                                    <td class="@(turno.AusenteTurnoAnterior == 1 ? "bg-light-red" : "")">@turno.SucursalNombre</td>
+                                    <td class="@(turno.AusenteTurnoAnterior == 1 ? "bg-light-red" : "")">@turno.ClienteNombre</td>
+                                    <td class="@(turno.AusenteTurnoAnterior == 1 ? "bg-light-red" : "")">@turno.Id</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-center no-reservas">No tienes reservas futuras.</p>
+                }
+            </div>
+
+            <!-- Reservas Pasadas -->
+            <div class="tab-pane fade" id="pasadas" role="tabpanel" aria-labelledby="pasadas-tab">
+                @if (Model.Reservas.Any(r => r.Fecha.Add(r.Hora) <= DateTime.Now))
+                {
+                    <table class="table mis-reservas-tabla">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Duración</th>
+                                <th>Sucursal</th>
+                                <th>Cliente</th>
+                                <th>Código de turno</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var turno in Model.Reservas.Where(r => r.Fecha.Add(r.Hora) <= DateTime.Now))
+                            {
+                                <tr>
+                                    <td>@turno.Fecha.ToString("dd/MM/yyyy")</td>
+                                    <td>@turno.Hora.ToString(@"hh\:mm")</td>
+                                    <td>@turno.DuracionMin min</td>
+                                    <td>@turno.SucursalNombre</td>
+                                    <td>@turno.ClienteNombre</td>
+                                    <td>@turno.Id</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-ausente" data-turno-id="@turno.Id"
+                                        @if (turno.Ausente == 1)
+                                        {
+                                            <text>disabled</text>
+                                        }>
+                                                Ausente
+                                                </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-center no-reservas">No tienes reservas pasadas.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:black" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="color:black">
+                    ¿Estás seguro de que deseas realizar esta acción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/script-reservasProfesional.js"></script>
+    }
+</body>
+</html>

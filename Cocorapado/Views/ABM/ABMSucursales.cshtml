@@ -1,0 +1,327 @@
+﻿@model IEnumerable<Cocorapado.Models.SucursalDTO>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com;">
+    <title>Administrar Sucursales</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            background: #343a40;
+        }
+
+            .sidebar a {
+                color: #fff;
+            }
+
+                .sidebar a:hover {
+                    background: #495057;
+                }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        #alertContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: auto;
+            max-width: 300px;
+        }
+
+        .sucursal-image {
+            width: 100%; /* Ancho completo */
+            height: 400px; /* Ajusta la altura deseada */
+            object-fit: cover; /* Mantiene la proporción de la imagen */
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <link rel="stylesheet" href="~/css/styles-abmSucursales.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/script-abmSucursales.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filterInput').on('input', function () {
+                var value = $(this).val().toLowerCase();
+                $('#SucursalesTableBody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="text-white text-center">Menú</h2>
+        <hr class="my-4">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMProfesionales")">Profesionales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMSucursales")">Sucursales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServicios")">Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServiciosPorProfesional")">Servicios por Profesional</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "ABMProfesionalesPorSucursal")">Profesionales por Sucursal</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Dashboard")">Estadísticas</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2 class="text-center mt-4">Administrar Sucursales</h2>
+
+        <div class="d-flex justify-content-center align-items-center flex-grow-1 centered">
+            <div class="card w-100">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" onClick="cargarDatosCreacion()">Agregar Sucursal</button>
+                        <input type="text" id="filterInput" class="form-control mt-2" placeholder="Buscar..." />
+                    </div>
+
+                    <div class="row">
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var sucursal in Model)
+                            {
+                                <div class="col-md-4">
+                                    <!-- Cambié col-md-6 a col-md-4 -->
+                                    <div class="card mb-4">
+                                        <img src="@($"{sucursal.Imagen}?v={DateTime.Now.Ticks}")" alt="Imagen de @sucursal.Nombre" class="sucursal-image card-img-top" />
+
+                                        <div class="card-body">
+                                            <h5 class="card-title">@sucursal.Nombre</h5>
+                                            <p><strong>Dirección:</strong> @sucursal.Direccion</p>
+                                            <p><strong>Localidad:</strong> @sucursal.Localidad</p>
+                                            <p><strong>Teléfono:</strong> @sucursal.Telefono</p>
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <a href="@Url.Content($"~/ABM/ABMSucursales/Edit/{sucursal.Id}")" class="btn btn-warning btn-lg"
+                                                   onclick="cargarDatosEdicion(@sucursal.Id, '@sucursal.Nombre', '@sucursal.Direccion', '@sucursal.Localidad', '@sucursal.Telefono', '@sucursal.Imagen')"
+                                                   data-toggle="modal" data-target="#editarSucursalModal">Editar</a>
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-lg" onclick="eliminarSucursal(@sucursal.Id)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12 text-center">
+                                <p>No hay sucursales disponibles.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear sucursal -->
+    <div class="modal fade" id="crearSucursalModal" tabindex="-1" role="dialog" aria-labelledby="crearSucursalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 80%; width: auto;">
+            <div class="modal-content" style="overflow-x: auto; max-height: 90vh;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearSucursalModalLabel">Crear Sucursal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearSucursalForm" method="post" action="/ABM/ABMSucursales/CrearSucursal" enctype="multipart/form-data">
+                        <!-- Datos Básicos -->
+                        <div class="form-group">
+                            <label for="SucursalNombre">Nombre</label>
+                            <input type="text" class="form-control" id="SucursalNombre" name="Nombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="SucursalDireccion">Dirección</label>
+                            <input type="text" class="form-control" id="SucursalDireccion" name="Direccion" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="SucursalLocalidad">Localidad</label>
+                            <input type="text" class="form-control" id="SucursalLocalidad" name="Localidad" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="SucursalTelefono">Teléfono</label>
+                            <input type="text" class="form-control" id="SucursalTelefono" name="Telefono" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="SucursalImagen">Imagen</label>
+                            <br />
+                            <img id="currentImageCreate" src="" alt="Imagen actual" style="max-width: 100%; height: auto;">
+                            <input type="file" id="SucursalImagen" name="Imagen" accept="image/*" />
+                        </div>
+
+                        <!-- Sección de Horarios -->
+                        <h6>Horarios</h6>
+                        <table id="tabla-horarios-create" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Día</th>
+                                    <th>Horario Apertura</th>
+                                    <th>Horario Cierre Mediodia</th>
+                                    <th>Horario Apertura Mediodia</th>
+                                    <th>Horario Cierre</th>
+                                </tr>
+                            </thead>
+                            <tbody id="horariosBodyCreate">
+                                <!--  Se cargan los horarios por JavaScript -->
+                            </tbody>
+                        </table>
+
+                        <!-- Sección de Servicios -->
+                        <h6>Servicios</h6>
+                        <table id="tabla-servicios-create" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Servicio</th>
+                                    <th>Incluir</th>
+                                </tr>
+                            </thead>
+                            <tbody id="serviciosBodyCreate">
+                                <!--  Se cargan los servicios por JavaScript -->
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveSucursal">Crear sucursal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal para editar sucursal -->
+    <div class="modal fade" id="editSucursalModal" tabindex="-1" role="dialog" aria-labelledby="editarSucursalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 80%; width: auto;">
+            <div class="modal-content" style="overflow-x: auto; max-height: 90vh;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarSucursalModalLabel">Editar Sucursal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSucursalForm" method="post" action="/ABM/ABMSucursales/EditarSucursal" enctype="multipart/form-data">
+                        <input type="hidden" id="editarSucursalId" name="Id" />
+
+                        <!-- Datos Básicos -->
+                        <div class="form-group">
+                            <label for="editSucursalNombre">Nombre</label>
+                            <input type="text" class="form-control" id="editSucursalNombre" name="Nombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editSucursalDireccion">Dirección</label>
+                            <input type="text" class="form-control" id="editSucursalDireccion" name="Direccion" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editSucursalLocalidad">Localidad</label>
+                            <input type="text" class="form-control" id="editSucursalLocalidad" name="Localidad" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editSucursalTelefono">Teléfono</label>
+                            <input type="text" class="form-control" id="editSucursalTelefono" name="Telefono" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editSucursalImagen">Imagen</label>
+                            <br />
+                            <img id="currentImage" src="" alt="Imagen actual" style="max-width: 100%; height: auto;">
+                            <input type="file" id="editSucursalImagen" name="Imagen" accept="image/*" />
+                            <small class="form-text text-muted">Solo agrega una foto si desea reemplazar la foto actual.</small>
+                        </div>
+
+                        <!-- Sección de Horarios -->
+                        <h6>Horarios</h6>
+                        <table id="tabla-horarios" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Día</th>
+                                    <th>Horario Apertura</th>
+                                    <th>Horario Cierre Mediodia</th>
+                                    <th>Horario Apertura Mediodia</th>
+                                    <th>Horario Cierre</th>
+                                </tr>
+                            </thead>
+                            <tbody id="horariosBody">
+                                <!--  Se cargan los horarios por JavaScript -->
+                            </tbody>
+                        </table>
+
+                        <!-- Sección de Servicios -->
+                        <h6>Servicios</h6>
+                        <table id="tabla-servicios" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Servicio</th>
+                                    <th>Incluir</th>
+                                </tr>
+                            </thead>
+                            <tbody id="serviciosBody">
+                                <!--  Se cargan los servicios por JavaScript -->
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="saveChanges">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas realizar esta acción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertas -->
+    <div id="alertContainer"></div>
+</body>
+</html>

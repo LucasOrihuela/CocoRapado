@@ -1,0 +1,94 @@
+﻿@model Cocorapado.Controllers.SucursalDetailsViewModel
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detalles de la Sucursal</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Card for Sucursal Details -->
+        <div class="card">
+            <div class="card-header text-white bg-primary">
+                <h3 class="card-title mb-0">Detalles de la Sucursal</h3>
+            </div>
+            <div class="card-body">
+                <!-- Image -->
+                <div class="text-center mb-4">
+                    <img src="/@Model.Sucursal.Imagen" alt="Imagen de la Sucursal" class="img-fluid" style="max-height: 300px;" />
+                </div>
+
+                <!-- Sucursal Information -->
+                <h4>@Model.Sucursal.Nombre</h4>
+                <p><strong>Dirección:</strong> @Model.Sucursal.Direccion</p>
+                <p><strong>Localidad:</strong> @Model.Sucursal.Localidad</p>
+                <p><strong>Teléfono:</strong> @Model.Sucursal.Telefono</p>
+            </div>
+        </div>
+
+        <!-- Horarios Section -->
+        <div class="mt-4">
+            <h4>Horarios</h4>
+            @if (Model.Horarios != null && Model.Horarios.Any())
+            {
+                <table class="table table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Día</th>
+                            <th>Horario Mañana</th>
+                            <th>Horario Tarde</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var horario in Model.Horarios)
+                        {
+                            <tr>
+                                <td>@horario.Dia</td>
+                                <td>@horario.HorarioApertura - @horario.HorarioCierreMediodia</td>
+                                <td>@horario.HorarioAperturaMediodia - @horario.HorarioCierre</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No disponible</p>
+            }
+        </div>
+
+        <!-- Servicios Section -->
+        <div class="mt-4">
+            <h4>Servicios</h4>
+            @if (Model.Servicios != null && Model.Servicios.Any())
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var servicio in Model.Servicios)
+                    {
+                        <li class="list-group-item">
+                            <span>@servicio.ServicioNombre</span>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No disponible</p>
+            }
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-4 mb-5">
+            <a href="@Url.Action("Index", "ABMSucursales")" class="btn btn-primary">Volver</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="@Url.Content("https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js")"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

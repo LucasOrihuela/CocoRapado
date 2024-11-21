@@ -1,0 +1,255 @@
+﻿@model IEnumerable<Cocorapado.Models.Usuario>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com;">
+    <title>Administrar Profesionales</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            background: #343a40;
+        }
+
+            .sidebar a {
+                color: #fff;
+            }
+
+                .sidebar a:hover {
+                    background: #495057;
+                }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        #alertContainer {
+            position: fixed; /* Posición fija */
+            bottom: 20px; /* Distancia desde la parte inferior */
+            right: 20px; /* Distancia desde la derecha */
+            z-index: 1050; /* Asegúrate de que se muestre encima de otros elementos */
+            width: auto; /* Puedes ajustar el ancho según tus necesidades */
+            max-width: 300px; /* Máximo ancho para que no sea demasiado grande */
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/script-abmProfesionales.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filterInput').on('input', function () {
+                var value = $(this).val().toLowerCase();
+                $('#ProfesionalesTableBody tr').filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="text-white text-center">Menú</h2>
+        <hr class="my-4">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMProfesionales")">Profesionales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMSucursales")">Sucursales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServicios")">Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "ABMServiciosPorProfesional")">Servicios por Profesional</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="@Url.Action("Index", "ABMProfesionalesPorSucursal")">Profesionales por Sucursal</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Dashboard")">Estadisticas</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor de la tarjeta -->
+    <div class="container vh-100 d-flex flex-column justify-content-start centered">
+        <!-- Título centrado arriba -->
+        <h2 class="text-center mt-4">Administrar Profesionales</h2>
+
+        <!-- Contenedor de la tarjeta -->
+        <div class="d-flex justify-content-center align-items-center flex-grow-1">
+            <div class="card w-75">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#crearProfesionalModal">Agregar</button>
+                        <input type="text" id="filterInput" class="form-control mt-2" placeholder="Buscar..." />
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ProfesionalesTableBody">
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var profesional in Model)
+                                {
+
+                                    <tr>
+                                        <td>@profesional.Id</td>
+                                        <td>@profesional.Nombre</td>
+                                        <td>@profesional.Apellido</td>
+                                        <td>@profesional.Correo</td>
+                                        <td>@profesional.Telefono</td>
+                                        <td>
+                                            <a href="@Url.Content($"~/ABM/ABMProfesionales/Edit/{profesional.Id}")" class="btn btn-warning btn-sm">Editar</a>
+                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="eliminarProfesional(@profesional.Id)">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center">No hay profesionales disponibles.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para crear un nuevo profesional -->
+    <div class="modal fade" id="crearProfesionalModal" tabindex="-1" role="dialog" aria-labelledby="crearProfesionalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearProfesionalModalLabel">Crear Nuevo Profesional</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="crearProfesionalForm" method="post" action="/ABM/ABMProfesionales/CrearProfesional">
+                        <div class="form-group">
+                            <label for="Nombre">Nombre</label>
+                            <input type="text" class="form-control" id="Nombre" name="Nombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="Apellido">Apellido</label>
+                            <input type="text" class="form-control" id="Apellido" name="Apellido" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="Correo">Correo</label>
+                            <input type="email" class="form-control" id="Correo" name="Correo" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="Telefono">Teléfono</label>
+                            <input type="text" class="form-control" id="Telefono" name="Telefono" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="Clave">Contraseña</label>
+                            <input type="password" class="form-control" id="Clave" name="Clave" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Crear Profesional</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Profesional -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Profesional</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProfesionalForm" action="/ABM/ABMProfesionales/Edit" method="post">
+                        <input type="hidden" id="editId" name="Id" />
+                        <div class="form-group">
+                            <label for="editNombre">Nombre</label>
+                            <input type="text" class="form-control" id="editNombre" name="Nombre" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editApellido">Apellido</label>
+                            <input type="text" class="form-control" id="editApellido" name="Apellido" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editCorreo">Correo</label>
+                            <input type="email" class="form-control" id="editCorreo" name="Correo" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editTelefono">Teléfono</label>
+                            <input type="text" class="form-control" id="editTelefono" name="Telefono" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="editPassword">Contraseña</label>
+                            <input type="password" class="form-control" id="editPassword" name="Clave" />
+                            <small class="form-text text-muted">Deja este campo vacío si no deseas cambiar la contraseña.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveChanges">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas realizar esta acción?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+</body>
+</html>

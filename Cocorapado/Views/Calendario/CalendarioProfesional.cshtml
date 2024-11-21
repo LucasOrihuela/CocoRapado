@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas del Profesional</title>
+
+    <!-- Carga de librerías FullCalendar -->
+    <link rel="stylesheet" href="@Url.Content("~/css/styles-calendario.css")" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+</head>
+<body>
+
+    <div class="calendar-container">
+        <h1>Mis Reservas</h1>
+        <div id="calendario"></div>
+    </div>
+
+    <!-- Carga de jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Carga de Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- Carga de FullCalendar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var idSucursal = @ViewBag.IdSucursal;
+            var idProfesional = @ViewBag.IdProfesional;
+
+            $.ajax({
+                type: 'GET',
+                url: '/Calendario/GetEventos/' + idSucursal + '/' + idProfesional,
+                dataType: 'json',
+                success: function (data) {
+                    var eventos = data;
+
+                    $('#calendario').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        events: eventos
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

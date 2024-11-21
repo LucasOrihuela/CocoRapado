@@ -1,0 +1,139 @@
+@model Cocorapado.Models.IndexViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coco Rapado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="~/css/styles-index.css">
+</head>
+<body>
+    <!-- Seccion portada -->
+    <div class="row portada-section">
+        <img src="~/assets/img/index/header-bg.png" alt="Imagen Barbería" class="img-fluid">
+    </div>
+    <div class="container" style="margin-bottom: 12rem">
+        <!-- Seccion Sucursales -->
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Sucursales</h2>
+                <div class="row">
+                    @if (Model.Sucursales != null && Model.Sucursales.Any())
+                    {
+                        @foreach (var sucursal in Model.Sucursales)
+                        {
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <img src="@Url.Content(sucursal.Imagen)" alt="Imagen Sucursal" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@sucursal.Localidad</h5>
+                                        <p class="card-text">@sucursal.Direccion</p>
+                                        <a href="@Url.Action("Sucursal", "Sucursales", new { id = sucursal.Id })" class="btn btn-warning">Ver más</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No hay sucursales disponibles.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seccion Profesionales -->
+    <div class="new-card-section">
+        <h2>Profesionales</h2>
+        <div class="col-md-12">
+            <div class="card-container">
+                @foreach (var profesional in Model.Profesionales)
+                {
+                    @* Convierte el Id de string a int *@
+                    var idProfesional = int.Parse(profesional.Id);
+
+                    <div class="card">
+                        <div class="card-image-container">
+                            <img src="@Url.Content(profesional.Imagen)" alt="Foto de @profesional.Nombre @profesional.Apellido" class="card-image">
+                            <div class="favorite-icon" onclick="toggleFavorite(event, @idProfesional)">
+                                <span class="star @(Model.ProfesionalesFavoritos.Contains(idProfesional) ? "favorited" : "")">&#9733;</span>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">@profesional.Nombre @profesional.Apellido</h2>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Seccion Trabajos Realizados -->
+    <div class="row" style="margin: 80px 0px">
+        <div class="col-md-12">
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/image-40.png" alt="Trabajo realizado 1" class="img-fluid">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/galeria-2-jpg0.png" alt="Trabajo realizado 2" class="img-fluid">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/image-60.png" alt="Trabajo realizado 3" class="img-fluid">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/image-50.png" alt="Trabajo realizado 4" class="img-fluid">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/image-70.png" alt="Trabajo realizado 5" class="img-fluid">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/image-80.png" alt="Trabajo realizado 6" class="img-fluid">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/galeria-2-jpg0.png" alt="Trabajo realizado 2" class="img-fluid">
+                </div>
+                <div class="col-md-2 mb-2">
+                    <img src="~/assets/img/Index/image-40.png" alt="Trabajo realizado 1" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Debe estar logeado para utilizar esta función.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" id="btnConfirmar">Logear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="~/js/scripts.js"></script>
+</body>
+</html>

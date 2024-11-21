@@ -1,0 +1,183 @@
+﻿@{
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Turno</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/styles-calendario.css")" />
+    <style>
+         body {
+            background-color: black !important; /* Color de fondo oscuro */
+            color: white; /* Texto blanco en el cuerpo */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Contenedor principal del calendario */
+        .calendar-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: white; /* Fondo blanco para el contenedor */
+            border-radius: 8px; /* Bordes redondeados */
+        }
+
+        /* Título del calendario */
+        .title {
+            color: #ffc107; /* Color dorado para el título */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para el calendario */
+        #calendario {
+            background-color: white; /* Fondo blanco para el calendario */
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* Botón de reservar */
+        #botonReservar {
+            padding: 10px 20px;
+            background-color: darkgrey; /* Color del botón */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed; /* Apariencia deshabilitada */
+            opacity: 0.6; /* Hacerlo semitransparente cuando esté deshabilitado */
+            margin-top: 20px; /* Espacio entre el calendario y el botón */
+            align-self: flex-end; /* Alinea el botón a la derecha */
+        }
+
+        #botonReservar.enabled {
+                background-color: #ffc107;
+            cursor: pointer; /* Cambiar cursor al habilitar */
+            opacity: 1;
+        }
+
+        /* Estilo de los días del calendario */
+        .day {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .day:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Hora no disponible */
+        .blocked-hour {
+            background-color: #ffcccc; /* Color para horarios no disponibles */
+            opacity: 0.5; /* Opcional: para que se vean atenuados */
+        }
+
+        /* Hora disponible */
+        .available-hour {
+            background-color: #ccffcc; /* Color para horarios disponibles */
+        }
+
+        /* Color para el día actual */
+        .fc-today {
+            background-color: white !important;
+        }
+
+        /* Color para los días no laborables */
+        .fc-nonbusiness {
+            background-color: #e0e0e0 !important; /* Color gris claro */
+        }
+
+        #modalConfirmacionTurno {
+            display: none;
+        }
+
+        #alertContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: auto;
+            max-width: 300px;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="title" style="margin-top: 1rem;">Calendario de Reservas</h1>
+    <div class="calendar-container">
+        <div id="calendario"></div>
+        <button class="btn btn-warning" id="botonReservar">Reservar</button>
+    </div>
+
+    <!-- Modal de Confirmación de Turno -->
+    <div class="modal fade" id="modalConfirmacionTurno" tabindex="-1" role="dialog" aria-labelledby="modalConfirmacionTurnoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalConfirmacionTurnoLabel">Confirmar Turno</h5>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Sucursal:</strong> <span id="sucursalNombre"></span></p>
+                    <p><strong>Profesional:</strong> <span id="profesionalNombre"></span> <span id="profesionalApellido"></span></p>
+                    <p><strong>Servicios:</strong></p>
+                    <ul id="listaServicios"></ul>
+                    <p><strong>Fecha:</strong> <span id="fechaSeleccionada"></span></p>
+                    <p><strong>Hora:</strong> <span id="horaSeleccionada"></span></p>
+                    <p><strong>Duración:</strong> <span id="duracionTurno"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="confirmarTurno">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionModalLabel">Confirmación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <!-- Icono de éxito -->
+                    <i class="fas fa-check-circle fa-5x text-success"></i> <!-- Icono grande de éxito -->
+                    <p class="mt-3">Su turno se ha reservado correctamente!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="btnConfirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+
+    @section Scripts {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
+        <script src="~/js/calendario.js"></script>
+    }
+</body>
+</html>

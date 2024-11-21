@@ -1,0 +1,53 @@
+﻿@model Cocorapado.Models.Usuario
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="@Url.Content("~/css/styles-account.css")" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer.bg-dark {
+            width: 100%; /* Asegura que el footer ocupe todo el ancho */
+        }
+    </style>
+    <title>Inicio de Sesión</title>
+</head>
+<body>
+    <div class="login-container">
+        <div class="container">
+            <h2>Inicio de Sesión</h2>
+            <form method="post" asp-action="Login">
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Correo Electrónico" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="clave" placeholder="Contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+            <div class="links">
+                <a href="#">¿Olvidaste tu contraseña?</a><br>
+                ¿No tienes cuenta? <a href="@Url.Action("Registro", "Account")">Regístrate</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Estilo general del navbar */
+        .navbar-dark.bg-dark {
+            background-color: #333 !important;
+        }
+
+        /* Letras de los botones "Iniciar Sesión" y "Registrarse" */
+        .navbar-nav .nav-link {
+            color: #ffc107 !important;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            margin-right: 13px;
+        }
+
+            /* Icono de usuario */
+            .navbar-nav .nav-link i {
+                color: #ffc107 !important;
+                font-size: 1.5rem;
+            }
+
+            /* Hover solo para "Iniciar sesión" y "Regístrate" */
+            .navbar-nav .nav-link:not(.dropdown-toggle):hover {
+                color: #ffc107 !important;
+                transform: scale(1.2);
+            }
+
+        /* Sin hover extra para el dropdown de "Mi cuenta" */
+        .navbar-nav .dropdown-toggle {
+            transition: none;
+            transform: none;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+            <img src="~/assets/img/logos/Logo_grande.png" alt="Logo Calavera" height="30">
+            <img src="~/assets/img/logos/Logo_nombre_chico.png" alt="Logo Cocorapado" height="20">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                @if (ViewBag.UsuarioId != null)
+                {
+                    <li class="nav-item dropdown" style="margin-right: 10px;">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user" style="margin-right: 10px;"></i><span>Mi cuenta</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Index", "MisReservas")">Mis Reservas</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "MiCuenta")">Mi Información</a>
+                            <a class="dropdown-item" href="#">Cerrar sesión</a>
+                        </div>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Login", "Account")">Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Registro", "Account")">Regístrate</a>
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </nav>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
