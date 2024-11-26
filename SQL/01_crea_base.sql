@@ -4,10 +4,7 @@ USE db_cocorapado
 GO
 CREATE TABLE perfiles(
 id int PRIMARY KEY IDENTITY(1,1),
-rol varchar(50),
-permiso_admin int,
-permiso_super_admin int,
-permiso_profesional int
+rol varchar(50)
 )
 
 GO

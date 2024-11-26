@@ -4,10 +4,7 @@ AS
 BEGIN
     SELECT 
 	p.id as Id,
-	rol as Rol,
-	permiso_admin as PermisoAdmin,
-	permiso_super_admin as PermisoSuperAdmin,
-	permiso_profesional as PermisoProfesional
+	rol as Rol
 	FROM perfiles p
 	INNER JOIN usuarios u ON u.id_perfil = p.id
 	WHERE u.id = @id_usuario
