@@ -86,7 +86,7 @@ namespace Cocorapado.Controllers
 
                 return perfil.Rol switch
                 {
-                    "SuperAdministrador" => RedirectToAction("SuperDashboard", "Admin"),
+                    "SuperAdministrador" => RedirectToAction("Index", "Dashboard"),
                     "Administrador" => RedirectToAction("Index", "Dashboard"),
                     "Profesional" => RedirectToAction("Index", "Profesionales"),
                     "Cliente" => RedirectToAction("Index", "Home"),

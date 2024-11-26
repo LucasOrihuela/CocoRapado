@@ -31,6 +31,14 @@ namespace Cocorapado.Service
             return result;
         }
 
+        public async Task<IEnumerable<Usuario>> GetProfesionalesBySucursalIdAsync(int sucursalId)
+        {
+            var query = "sp_ObtenerProfesionalesPorIdSucursal";
+            var parameters = new { id_sucursal = sucursalId };
+            var result = await _connection.QueryAsync<Usuario>(query, parameters);
+            return result;
+        }
+
         public async Task<String?> GetNombreProfesionalesByIdAsync(int idProfesional)
         {
             var nombre = await _connection.QueryFirstOrDefaultAsync<String>(

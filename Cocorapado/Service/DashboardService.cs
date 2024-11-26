@@ -16,46 +16,36 @@ namespace Cocorapado.Service
             _dbConnection = dbConnection;
         }
 
-        // Método para obtener las ventas generales según el rango de tiempo
-        public async Task<IEnumerable<Ventas>> GetSalesData(string timeRange, int? idSucursal = null)
+        // Método para obtener ventas de una sucursal específica según el rango de tiempo
+        public async Task<IEnumerable<Ventas>> GetSalesDataForBranch(string timeRange, int idSucursal)
         {
             try
             {
-                string procedureName = string.Empty;
+                string procedureName = GetProcedureName(timeRange);
                 var today = DateTime.Now;
                 var parameters = new DynamicParameters();
 
-                // Selección de procedimiento según el rango de tiempo
-                if (timeRange == "daily")
+                // Parámetros necesarios para el procedimiento
+                parameters.Add("@id_sucursal", idSucursal);
+                switch (timeRange)
                 {
-                    procedureName = idSucursal.HasValue ? "sp_ObtenerVentasDiariasPorSucursal" : "sp_ObtenerVentasDiarias";
-                    parameters.Add("@Fecha", today.Date);
-                }
-                else if (timeRange == "weekly")
-                {
-                    procedureName = idSucursal.HasValue ? "sp_ObtenerVentasSemanalesPorSucursal" : "sp_ObtenerVentasSemanales";
-                    parameters.Add("@FechaInicio", today.Date.AddDays(-7)); // Últimos 7 días
-                    parameters.Add("@FechaFin", today.Date);
-                }
-                else if (timeRange == "monthly")
-                {
-                    procedureName = idSucursal.HasValue ? "sp_ObtenerVentasMensualesPorSucursal" : "sp_ObtenerVentasMensuales";
-                    parameters.Add("@Mes", today.Month);
-                    parameters.Add("@Anio", today.Year);
-                }
-                else if (timeRange == "annual")
-                {
-                    procedureName = idSucursal.HasValue ? "sp_ObtenerVentasAnualPorSucursal" : "sp_ObtenerVentasAnual";
-                    parameters.Add("@Anio", today.Year);
+                    case "daily":
+                        parameters.Add("@Fecha", today.Date);
+                        break;
+                    case "weekly":
+                        parameters.Add("@FechaInicio", today.Date.AddDays(-7)); // Últimos 7 días
+                        parameters.Add("@FechaFin", today.Date);
+                        break;
+                    case "monthly":
+                        parameters.Add("@Mes", today.Month);
+                        parameters.Add("@Anio", today.Year);
+                        break;
+                    case "annual":
+                        parameters.Add("@Anio", today.Year);
+                        break;
                 }
 
-                // Si tenemos un idSucursal, lo agregamos a los parámetros
-                if (idSucursal.HasValue)
-                {
-                    parameters.Add("@id_sucursal", idSucursal.Value);
-                }
-
-                // Ejecución del procedimiento almacenado
+                // Ejecutar el procedimiento almacenado
                 return await _dbConnection.QueryAsync<Ventas>(
                     procedureName,
                     parameters,
@@ -64,60 +54,44 @@ namespace Cocorapado.Service
             }
             catch (Exception ex)
             {
-                // Loguear el error
                 Console.WriteLine(ex.Message);
-                throw new Exception("Error al obtener los datos de ventas");
+                throw new Exception("Error al obtener los datos de ventas para la sucursal.");
             }
         }
 
-        // Método para obtener las ventas por sucursal según el rango de tiempo
-        public async Task<IEnumerable<Ventas>> GetSalesDataByBranch(string timeRange, int idSucursal)
+        // Método para obtener ventas de todas las sucursales (SuperAdministrador)
+        public async Task<Dictionary<int, IEnumerable<Ventas>>> GetSalesDataForAllBranches(string timeRange, IEnumerable<int> sucursales)
         {
             try
             {
-                string procedureName = string.Empty;
-                var today = DateTime.Now;
-                var parameters = new DynamicParameters();
-                parameters.Add("@id_sucursal", idSucursal);
+                var salesDataByBranch = new Dictionary<int, IEnumerable<Ventas>>();
 
-                // Selección de procedimiento según el rango de tiempo
-                if (timeRange == "daily")
+                foreach (var idSucursal in sucursales)
                 {
-                    procedureName = "sp_ObtenerVentasDiariasPorSucursal";
-                    parameters.Add("@Fecha", today.Date);
-                }
-                else if (timeRange == "weekly")
-                {
-                    procedureName = "sp_ObtenerVentasSemanalesPorSucursal";
-                    parameters.Add("@FechaInicio", today.Date.AddDays(-7)); // Últimos 7 días
-                    parameters.Add("@FechaFin", today.Date);
-                }
-                else if (timeRange == "monthly")
-                {
-                    procedureName = "sp_ObtenerVentasMensualesPorSucursal";
-                    parameters.Add("@Mes", today.Month);
-                    parameters.Add("@Anio", today.Year);
-                }
-                else if (timeRange == "annual")
-                {
-                    procedureName = "sp_ObtenerVentasAnualPorSucursal";
-                    parameters.Add("@Anio", today.Year);
+                    var salesData = await GetSalesDataForBranch(timeRange, idSucursal);
+                    salesDataByBranch[idSucursal] = salesData;
                 }
 
-
-                // Ejecución del procedimiento almacenado
-                return await _dbConnection.QueryAsync<Ventas>(
-                    procedureName,
-                    parameters,
-                    commandType: CommandType.StoredProcedure
-                );
+                return salesDataByBranch;
             }
             catch (Exception ex)
             {
-                // Loguear el error
                 Console.WriteLine(ex.Message);
-                throw new Exception("Error al obtener los datos de ventas por sucursal");
+                throw new Exception("Error al obtener los datos de ventas para todas las sucursales.");
             }
+        }
+
+        // Método privado para obtener el nombre del procedimiento almacenado
+        private string GetProcedureName(string timeRange)
+        {
+            return timeRange switch
+            {
+                "daily" => "sp_ObtenerVentasDiariasPorSucursal",
+                "weekly" => "sp_ObtenerVentasSemanalesPorSucursal",
+                "monthly" => "sp_ObtenerVentasMensualesPorSucursal",
+                "annual" => "sp_ObtenerVentasAnualPorSucursal",
+                _ => throw new ArgumentException("El rango de tiempo especificado no es válido.")
+            };
         }
     }
 }

@@ -91,8 +91,18 @@ CREATE TABLE profesional_x_sucursal(
 id_profesional int not null,
 id_sucursal int not null,
 UNIQUE(id_profesional,id_sucursal),
-CONSTRAINT FK_Profesional_x_Sucursal_Servicio FOREIGN KEY (id_profesional) REFERENCES usuarios(id),
+CONSTRAINT FK_Profesional_x_Sucursal_Usuario FOREIGN KEY (id_profesional) REFERENCES usuarios(id),
 CONSTRAINT FK_Profesional_x_Sucursal_Sucursal FOREIGN KEY (id_sucursal) REFERENCES sucursales(id)
+)
+
+GO
+
+CREATE TABLE administrador_x_sucursal(
+id_admin int not null,
+id_sucursal int not null,
+UNIQUE(id_admin,id_sucursal),
+CONSTRAINT FK_Admin_x_Sucursal_Usuario FOREIGN KEY (id_admin) REFERENCES usuarios(id),
+CONSTRAINT FK_Admin_x_Sucursal_Sucursal FOREIGN KEY (id_sucursal) REFERENCES sucursales(id)
 )
 
 GO

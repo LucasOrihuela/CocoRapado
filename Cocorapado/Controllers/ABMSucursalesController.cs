@@ -19,19 +19,19 @@ namespace Cocorapado.Controllers
             _sucursalService = sucursalService;
         }
 
-        private bool IsUserAuthenticatedAsClient()
+        private bool IsUserAuthenticatedAsSuperAdmin()
         {
             var usuarioId = HttpContext.Session.GetString("UsuarioId");
             var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
 
-            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "Administrador";
+            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "SuperAdministrador";
         }
 
         // GET: /ABM/ABMSucursales
         public async Task<IActionResult> Index()
         {
 
-            if (!IsUserAuthenticatedAsClient())
+            if (!IsUserAuthenticatedAsSuperAdmin())
             {
                 return RedirectToAction("Login", "Account");
             }

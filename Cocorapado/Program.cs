@@ -115,7 +115,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "admin_superDashboard",
     pattern: "Admin/SuperDashboard",
-    defaults: new { controller = "Dashboard", action = "SuperDashboard" });
+    defaults: new { controller = "Dashboard", action = "Index" });
 
 
 // Map route for ABMProfesionales with the 'ABM' prefix

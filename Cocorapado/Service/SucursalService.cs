@@ -88,6 +88,24 @@
             }
         }
 
+        public async Task<int> ObtenerSucursalPorIdAdmin(int idAdmin)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                string storedProcedure = "sp_ObtenerSucursalPorAdministrador";
+
+                int idSucursal = await connection.QuerySingleAsync<int>(
+                    storedProcedure,
+                    new
+                    {
+                        id_admin = idAdmin
+                    },
+                    commandType: CommandType.StoredProcedure);
+
+                return idSucursal;
+            }
+        }
+
 
         // Método para crear un servicio para una sucursal
         public async Task CrearServicioPorSucursalAsync(int idServicio, int idSucursal)

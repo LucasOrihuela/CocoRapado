@@ -1,9 +1,12 @@
 ﻿using Cocorapado.Service;
 using Cocorapado.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using System.Numerics;
 
 namespace Cocorapado.Controllers
 {
@@ -11,11 +14,13 @@ namespace Cocorapado.Controllers
     {
         private readonly UsuarioService _usuarioService;
         private readonly PerfilService _perfilService;
+        private readonly SucursalService _sucursalService;
 
-        public ABMProfesionalesController(UsuarioService usuarioService, PerfilService perfilService)
+        public ABMProfesionalesController(UsuarioService usuarioService, PerfilService perfilService, SucursalService sucursalService)
         {
             _usuarioService = usuarioService;
             _perfilService = perfilService;
+            _sucursalService = sucursalService;
         }
 
         private bool IsUserAuthenticatedAsClient()
@@ -35,7 +40,14 @@ namespace Cocorapado.Controllers
             }
             try
             {
-                var profesionales = await _usuarioService.GetTodosLosProfesionalesAsync();
+                IEnumerable<Usuario> profesionales = Enumerable.Empty<Usuario>();
+                var idString = HttpContext.Session.GetString("UsuarioId");
+                int.TryParse(idString, out var idAdmin);
+                var sucursal = await _sucursalService.ObtenerSucursalPorIdAdmin(idAdmin);
+                if (sucursal > 0)
+                {
+                    profesionales = await _usuarioService.GetProfesionalesBySucursalIdAsync(sucursal);
+                }
 
                 if (profesionales == null || !profesionales.Any())
                 {

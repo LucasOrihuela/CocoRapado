@@ -21,108 +21,104 @@ namespace Cocorapado.Controllers
 
         private bool IsUserAuthenticatedAsAdmin()
         {
-            var usuarioId = HttpContext.Session.GetString("UsuarioId");
             var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
-
-            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "Administrador";
+            return usuarioRol == "Administrador";
         }
 
         private bool IsUserAuthenticatedAsSuperAdmin()
         {
-            var usuarioId = HttpContext.Session.GetString("UsuarioId");
             var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
-
-            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "SuperAdministrador";
+            return usuarioRol == "SuperAdministrador";
         }
 
-        // Acción para mostrar la vista del Dashboard de ventas generales (solo para Administradores)
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            if (!IsUserAuthenticatedAsAdmin())
+            var isSuperAdmin = IsUserAuthenticatedAsSuperAdmin();
+            var isAdmin = IsUserAuthenticatedAsAdmin();
+
+            if (isSuperAdmin)
             {
-                return RedirectToAction("Login", "Account");
+                return View("~/Views/Admin/SuperDashboard.cshtml");
             }
-            // Especifica la carpeta "Admin" donde se encuentra la vista
-            return View("~/Views/Admin/Dashboard.cshtml");
+            else if (isAdmin)
+            {
+                return View("~/Views/Admin/Dashboard.cshtml");
+            }
+            else
+            {
+                return Unauthorized("No tienes permisos para ver esta información.");
+            }
         }
 
-        // Acción para mostrar la vista de SuperDashboard de ventas por sucursal (solo para SuperAdministradores)
         [HttpGet]
-        public async Task<IActionResult> SuperDashboard()
-        {
-            if (!IsUserAuthenticatedAsSuperAdmin())
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            // Obtener las sucursales
-            var sucursales = await _sucursalService.GetSucursalesAsync();
-
-            // Pasar las sucursales a la vista para que puedas mostrar las ventas por sucursal
-            return View("~/Views/Admin/SuperDashboard.cshtml", sucursales);
-        }
-
-        // Acción para obtener los datos de ventas generales en un rango de tiempo
-        [HttpGet]
-        public async Task<IActionResult> GetSalesData(string timeRange)
+        public async Task<IActionResult> GetSalesData(string timeRange, int? idSucursal = null)
         {
             try
             {
-                // Llamar al servicio para obtener las ventas generales sin idSucursal
-                var salesData = await _dashboardService.GetSalesData(timeRange);
+                IEnumerable<Ventas> salesData;
+                var isSuperAdmin = IsUserAuthenticatedAsSuperAdmin();
+                var isAdmin = IsUserAuthenticatedAsAdmin();
 
-                // Convertir los datos a un formato adecuado para el gráfico
-                var chartData = salesData.Select(row => new
+                if (string.IsNullOrEmpty(timeRange))
                 {
-                    label = row.Dia ?? row.Hora, // Usa las propiedades correctas
-                    value = row.TotalVentas
-                });
-
-                return Json(chartData);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode(500, new { error = "Hubo un problema al obtener los datos de ventas" });
-            }
-        }
-
-        // Acción para obtener los datos de ventas por sucursal en un rango de tiempo
-        [HttpGet]
-        public async Task<IActionResult> GetSalesDataByBranch(string timeRange)
-        {
-            try
-            {
-                // Obtener todas las sucursales
-                var sucursales = await _sucursalService.GetSucursalesAsync();
-                var allSalesData = new List<object>();
-
-                foreach (var sucursal in sucursales)
-                {
-                    // Llamar al servicio con idSucursal para obtener las ventas por sucursal
-                    var salesData = await _dashboardService.GetSalesData(timeRange, sucursal.Id);
-
-                    // Adaptar las propiedades del modelo de ventas para el gráfico
-                    var salesDataForBranch = salesData.Select(row => new
-                    {
-                        label = row.Dia ?? row.Hora, // Usar 'Dia' o 'Hora' dependiendo del tipo de venta
-                        value = row.TotalVentas
-                    }).ToList();
-
-                    allSalesData.Add(new
-                    {
-                        sucursalName = sucursal.Nombre,
-                        salesData = salesDataForBranch
-                    });
+                    timeRange = "daily";
                 }
 
-                return Json(allSalesData); // Devolver todos los datos de ventas por sucursal
+                if (isSuperAdmin)
+                {
+                    var sucursales = await _sucursalService.GetSucursalesAsync();
+                    var allSalesData = new List<object>();
+
+                    var salesDataByBranch = await _dashboardService.GetSalesDataForAllBranches(timeRange, sucursales.Select(s => s.Id));
+
+                    foreach (var sucursal in salesDataByBranch)
+                    {
+                        var salesDataForBranch = sucursal.Value.Select(row => new
+                        {
+                            label = row.Dia ?? row.Hora,
+                            value = row.TotalVentas
+                        }).ToList();
+
+                        allSalesData.Add(new
+                        {
+                            sucursalName = sucursal.Key,
+                            salesData = salesDataForBranch
+                        });
+                    }
+
+                    return Json(allSalesData);
+                }
+                else if (isAdmin)
+                {
+                    var idString = HttpContext.Session.GetString("UsuarioId");
+                    int.TryParse(idString, out var idAdmin);
+                    var sucursal = await _sucursalService.ObtenerSucursalPorIdAdmin(idAdmin);
+
+                    if (sucursal <= 0)
+                    {
+                        return NotFound("No se encontró la sucursal asociada al administrador.");
+                    }
+
+                    salesData = await _dashboardService.GetSalesDataForBranch(timeRange, sucursal);
+
+                    var chartData = salesData.Select(row => new
+                    {
+                        label = row.Dia ?? row.Hora,
+                        value = row.TotalVentas
+                    });
+
+                    return Json(chartData);
+                }
+                else
+                {
+                    return Unauthorized("No tienes permisos para ver esta información.");
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return StatusCode(500, new { error = "Hubo un problema al obtener los datos de ventas" });
+                return StatusCode(500, new { error = "Hubo un problema al obtener los datos de ventas." });
             }
         }
     }
