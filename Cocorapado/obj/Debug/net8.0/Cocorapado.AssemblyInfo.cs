@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cocorapado")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cfcb75570fa1b3b76c6165e00d5be8d40967b00c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e0a473368a162433624a44671e555a13856cc33")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cocorapado")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cocorapado")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

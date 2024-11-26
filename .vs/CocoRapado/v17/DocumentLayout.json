@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\views\\admin\\superdashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\wwwroot\\css\\styles-dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\wwwroot\\css\\styles-dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\wwwroot\\js\\superdashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\wwwroot\\js\\superdashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
@@ -30,8 +34,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "styles-dashboard.css",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\css\\styles-dashboard.css",
+              "RelativeDocumentMoniker": "Cocorapado\\wwwroot\\css\\styles-dashboard.css",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\css\\styles-dashboard.css",
+              "RelativeToolTip": "Cocorapado\\wwwroot\\css\\styles-dashboard.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-11-26T16:05:39.323Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -40,7 +57,7 @@
               "RelativeDocumentMoniker": "Cocorapado\\Views\\Admin\\Dashboard.cshtml",
               "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\Admin\\Dashboard.cshtml",
               "RelativeToolTip": "Cocorapado\\Views\\Admin\\Dashboard.cshtml",
-              "ViewState": "AQIAADYAAAAAAAAAAAAAADsAAABdAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-26T15:50:02.419Z",
               "EditorCaption": ""
@@ -53,27 +70,27 @@
               "RelativeDocumentMoniker": "Cocorapado\\Views\\Admin\\SuperDashboard.cshtml",
               "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\Admin\\SuperDashboard.cshtml",
               "RelativeToolTip": "Cocorapado\\Views\\Admin\\SuperDashboard.cshtml",
-              "ViewState": "AQIAADYAAAAAAAAAAAAAAE0AAAApAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-26T12:49:03.629Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "superDashboard.js",
               "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\js\\superDashboard.js",
               "RelativeDocumentMoniker": "Cocorapado\\wwwroot\\js\\superDashboard.js",
               "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\js\\superDashboard.js",
               "RelativeToolTip": "Cocorapado\\wwwroot\\js\\superDashboard.js",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAQwB4AAAAXAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEIAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-11-26T12:51:46.663Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "DashboardControllers.cs",
               "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\DashboardControllers.cs",
               "RelativeDocumentMoniker": "Cocorapado\\Controllers\\DashboardControllers.cs",
@@ -81,12 +98,11 @@
               "RelativeToolTip": "Cocorapado\\Controllers\\DashboardControllers.cs",
               "ViewState": "AQIAAE4AAAAAAAAAAAAmwDUAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T12:52:13.009Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-26T12:52:13.009Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DashboardService.cs",
               "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\DashboardService.cs",
               "RelativeDocumentMoniker": "Cocorapado\\Service\\DashboardService.cs",
@@ -94,8 +110,7 @@
               "RelativeToolTip": "Cocorapado\\Service\\DashboardService.cs",
               "ViewState": "AQIAAE0AAAAAAAAAAAAwwGUAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T13:03:54.591Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-26T13:03:54.591Z"
             }
           ]
         }
