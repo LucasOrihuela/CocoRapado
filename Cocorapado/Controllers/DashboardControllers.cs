@@ -1,22 +1,25 @@
-﻿using Cocorapado.Service;
-using Dapper;
+﻿using Cocorapado.Models;
+using Cocorapado.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cocorapado.Controllers
 {
     public class DashboardController : Controller
     {
-        private readonly IDbConnection _dbConnection;
+        private readonly DashboardService _dashboardService;
+        private readonly SucursalService _sucursalService;
 
-        public DashboardController(IDbConnection dbConnection)
+        public DashboardController(DashboardService dashboardService, SucursalService sucursalService)
         {
-            _dbConnection = dbConnection;
+            _dashboardService = dashboardService;
+            _sucursalService = sucursalService;
         }
 
-        private bool IsUserAuthenticatedAsClient()
+        private bool IsUserAuthenticatedAsAdmin()
         {
             var usuarioId = HttpContext.Session.GetString("UsuarioId");
             var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
@@ -24,11 +27,19 @@ namespace Cocorapado.Controllers
             return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "Administrador";
         }
 
-        // Acción para mostrar la vista del Dashboard
+        private bool IsUserAuthenticatedAsSuperAdmin()
+        {
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+            var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
+
+            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "SuperAdministrador";
+        }
+
+        // Acción para mostrar la vista del Dashboard de ventas generales (solo para Administradores)
         [HttpGet]
         public IActionResult Index()
         {
-            if (!IsUserAuthenticatedAsClient())
+            if (!IsUserAuthenticatedAsAdmin())
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -36,41 +47,35 @@ namespace Cocorapado.Controllers
             return View("~/Views/Admin/Dashboard.cshtml");
         }
 
-        // Acción para obtener los datos de ventas en un rango de tiempo
+        // Acción para mostrar la vista de SuperDashboard de ventas por sucursal (solo para SuperAdministradores)
+        [HttpGet]
+        public async Task<IActionResult> SuperDashboard()
+        {
+            if (!IsUserAuthenticatedAsSuperAdmin())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Obtener las sucursales
+            var sucursales = await _sucursalService.GetSucursalesAsync();
+
+            // Pasar las sucursales a la vista para que puedas mostrar las ventas por sucursal
+            return View("~/Views/Admin/SuperDashboard.cshtml", sucursales);
+        }
+
+        // Acción para obtener los datos de ventas generales en un rango de tiempo
         [HttpGet]
         public async Task<IActionResult> GetSalesData(string timeRange)
         {
             try
             {
-                string procedureName = string.Empty;
-                var today = DateTime.Now;
-                var parameters = new DynamicParameters();
-
-                if (timeRange == "daily")
-                {
-                    procedureName = "sp_ObtenerVentasDiarias";
-                    parameters.Add("@Fecha", today.Date);
-                }
-                else if (timeRange == "weekly")
-                {
-                    procedureName = "sp_ObtenerVentasSemanales";
-                    parameters.Add("@FechaInicio", today.Date.AddDays(-56));
-                    parameters.Add("@FechaFin", today.Date);
-                }
-                else if (timeRange == "monthly")
-                {
-                    procedureName = "sp_ObtenerVentasMensuales";
-                    parameters.Add("@Mes", today.Month);
-                    parameters.Add("@Anio", today.Year);
-                }
-
-                // Llamar al procedimiento almacenado
-                var salesData = await _dbConnection.QueryAsync(procedureName, parameters, commandType: CommandType.StoredProcedure);
+                // Llamar al servicio para obtener las ventas generales sin idSucursal
+                var salesData = await _dashboardService.GetSalesData(timeRange);
 
                 // Convertir los datos a un formato adecuado para el gráfico
                 var chartData = salesData.Select(row => new
                 {
-                    label = row.Dia ?? row.Hora,
+                    label = row.Dia ?? row.Hora, // Usa las propiedades correctas
                     value = row.TotalVentas
                 });
 
@@ -78,12 +83,47 @@ namespace Cocorapado.Controllers
             }
             catch (Exception ex)
             {
-                // Loguear el error
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, new { error = "Hubo un problema al obtener los datos de ventas" });
             }
         }
 
+        // Acción para obtener los datos de ventas por sucursal en un rango de tiempo
+        [HttpGet]
+        public async Task<IActionResult> GetSalesDataByBranch(string timeRange)
+        {
+            try
+            {
+                // Obtener todas las sucursales
+                var sucursales = await _sucursalService.GetSucursalesAsync();
+                var allSalesData = new List<object>();
 
+                foreach (var sucursal in sucursales)
+                {
+                    // Llamar al servicio con idSucursal para obtener las ventas por sucursal
+                    var salesData = await _dashboardService.GetSalesData(timeRange, sucursal.Id);
+
+                    // Adaptar las propiedades del modelo de ventas para el gráfico
+                    var salesDataForBranch = salesData.Select(row => new
+                    {
+                        label = row.Dia ?? row.Hora, // Usar 'Dia' o 'Hora' dependiendo del tipo de venta
+                        value = row.TotalVentas
+                    }).ToList();
+
+                    allSalesData.Add(new
+                    {
+                        sucursalName = sucursal.Nombre,
+                        salesData = salesDataForBranch
+                    });
+                }
+
+                return Json(allSalesData); // Devolver todos los datos de ventas por sucursal
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new { error = "Hubo un problema al obtener los datos de ventas" });
+            }
+        }
     }
 }

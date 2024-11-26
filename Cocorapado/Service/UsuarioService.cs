@@ -154,8 +154,6 @@ namespace Cocorapado.Service
             }
         }
 
-
-
         public async Task<Perfil?> ObtenerPerfilPorUsuarioAsync(int idUsuario)
         {
             var query = "sp_ObtenerPerfilPorUsuario";

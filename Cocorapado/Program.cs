@@ -17,31 +17,19 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDbConnection>(sp =>
     new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register SucursalService
+// Register services
 builder.Services.AddScoped<SucursalService>();
-
-// Register UsuarioService with injected IDbConnection
 builder.Services.AddScoped<UsuarioService>();
-
-// Register ServiciosPorProfesionalService
 builder.Services.AddScoped<ServiciosPorProfesionalService>();
-
-// Register ProfesionalesPorSucursalService
 builder.Services.AddScoped<ProfesionalesPorSucursalService>();
-
-// Register ServicioService
 builder.Services.AddScoped<ServicioService>();
-
-// Register TurnoService
 builder.Services.AddScoped<TurnoService>();
-
-// Register PerfilService
 builder.Services.AddScoped<PerfilService>();
+builder.Services.AddScoped<DashboardService>(); // Registrar DashboardService
 
 // Configure Entity Framework and Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 // Configure Identity
 builder.Services.AddIdentity<Usuario, IdentityRole>(options =>
@@ -84,10 +72,10 @@ app.UseAuthorization();
 
 app.UseSession(); // Habilitar el uso de sesiones
 
-// Map routes for API controllers
-app.MapControllerRoute(
-    name: "api",
-    pattern: "api/{controller}/{action}/{id?}");
+//// Map routes for API controllers
+//app.MapControllerRoute(
+//    name: "api",
+//    pattern: "api/{controller}/{action}/{id?}");
 
 // Map route for Home controller
 app.MapControllerRoute(
@@ -99,7 +87,6 @@ app.MapControllerRoute(
     pattern: "Sucursal/Details/{id}",
     defaults: new { controller = "Sucursales", action = "SucursalDetails" });
 
-// Map specific routes for other areas
 app.MapControllerRoute(
     name: "calendario",
     pattern: "calendario/{idSucursal}",
@@ -124,6 +111,12 @@ app.MapControllerRoute(
     name: "admin_dashboard",
     pattern: "Admin/Dashboard",
     defaults: new { controller = "Dashboard", action = "Index" });
+
+app.MapControllerRoute(
+    name: "admin_superDashboard",
+    pattern: "Admin/SuperDashboard",
+    defaults: new { controller = "Dashboard", action = "SuperDashboard" });
+
 
 // Map route for ABMProfesionales with the 'ABM' prefix
 app.MapControllerRoute(
