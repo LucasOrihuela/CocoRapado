@@ -1,12 +1,168 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\lucas\\GitHub\\CocoRapado\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\controllers\\calendariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\controllers\\calendariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\service\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\service\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\service\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\service\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\views\\account\\registro.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\views\\account\\registro.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Program.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Program.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Program.cs",
+              "RelativeToolTip": "Cocorapado\\Program.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAkwBsAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-16T14:37:07.109Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CalendarioController.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\CalendarioController.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Controllers\\CalendarioController.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\CalendarioController.cs",
+              "RelativeToolTip": "Cocorapado\\Controllers\\CalendarioController.cs",
+              "ViewState": "AQIAANMAAAAAAAAAAAAIwOYAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T18:49:36.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EmailSender.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\EmailSender.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Service\\EmailSender.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\EmailSender.cs",
+              "RelativeToolTip": "Cocorapado\\Service\\EmailSender.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T19:24:50.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\appsettings.json",
+              "RelativeDocumentMoniker": "Cocorapado\\appsettings.json",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\appsettings.json",
+              "RelativeToolTip": "Cocorapado\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-10T19:52:59.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UsuarioService.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\UsuarioService.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Service\\UsuarioService.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\UsuarioService.cs",
+              "RelativeToolTip": "Cocorapado\\Service\\UsuarioService.cs",
+              "ViewState": "AQIAAL4BAAAAAAAAAAAgwNIBAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T19:17:00.82Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Cocorapado\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Cocorapado\\Views\\Account\\Login.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-10T19:10:06.214Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Registro.cshtml",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\Account\\Registro.cshtml",
+              "RelativeDocumentMoniker": "Cocorapado\\Views\\Account\\Registro.cshtml",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\Account\\Registro.cshtml",
+              "RelativeToolTip": "Cocorapado\\Views\\Account\\Registro.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAABNAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-10T19:09:55.246Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Models\\Usuario.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Models\\Usuario.cs",
+              "RelativeToolTip": "Cocorapado\\Models\\Usuario.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T19:04:50.631Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Cocorapado\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAEAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T19:03:35.803Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

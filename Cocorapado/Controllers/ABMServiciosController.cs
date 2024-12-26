@@ -20,7 +20,7 @@ namespace Cocorapado.Controllers
             var usuarioId = HttpContext.Session.GetString("UsuarioId");
             var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
 
-            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "Administrador";
+            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "SuperAdministrador";
         }
 
         // Acción Index para listar servicios

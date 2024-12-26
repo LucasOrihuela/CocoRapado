@@ -25,7 +25,8 @@ builder.Services.AddScoped<ProfesionalesPorSucursalService>();
 builder.Services.AddScoped<ServicioService>();
 builder.Services.AddScoped<TurnoService>();
 builder.Services.AddScoped<PerfilService>();
-builder.Services.AddScoped<DashboardService>(); // Registrar DashboardService
+builder.Services.AddScoped<DashboardService>();
+builder.Services.AddSingleton<EmailSender>();
 
 // Configure Entity Framework and Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -124,6 +125,11 @@ app.MapControllerRoute(
     pattern: "ABM/ABMProfesionales/{action=Index}/{id?}",
     defaults: new { controller = "ABMProfesionales", action = "Index" });
 
+app.MapControllerRoute(
+    name: "ABMAdministradores",
+    pattern: "ABM/ABMAdministradores/{action=Index}/{id?}",
+    defaults: new { controller = "ABMAdministradores", action = "Index" });
+
 // Add more routes for other ABM sections if necessary
 app.MapControllerRoute(
     name: "ABMSucursales",
@@ -137,7 +143,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "ABMServiciosPorProfesional",
-    pattern: "ABM/ABMServiciosPorProfesional/{action=Index}/{id?}",
+    pattern: "ABM/ABMServiciosPorProfesional",
     defaults: new { controller = "ABMServiciosPorProfesional", action = "Index" });
 
 app.MapControllerRoute(

@@ -21,49 +21,55 @@ public class ABMServiciosPorProfesionalController : Controller
         _servicioService = servicioService;
     }
 
-    private bool IsUserAuthenticatedAsClient()
+    private bool IsUserAuthenticatedAsAdmin()
     {
-        var usuarioId = HttpContext.Session.GetString("UsuarioId");
         var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
-
-        return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "Administrador";
+        return usuarioRol == "Administrador";
     }
 
     // Acción para la vista de servicios por profesional
-    public async Task<IActionResult> Index(int? idSucursal)
+    public async Task<IActionResult> Index()
     {
+        var isAdmin = IsUserAuthenticatedAsAdmin();
+        var idSucursal = HttpContext.Session.GetString("AdministradorSucursal");
+        int idSucursalInt = 0;
+        idSucursalInt = Convert.ToInt32(idSucursal);
 
-        if (!IsUserAuthenticatedAsClient())
+        if (isAdmin)
         {
-            return RedirectToAction("Login", "Account");
+            // Verifica que los servicios no sean null antes de utilizarlos
+            if (_serviciosPorProfesionalService == null || _sucursalService == null)
+            {
+                return StatusCode(500, "Error en la configuración de los servicios.");
+            }
+
+            // Obtener relaciones de servicios por profesional utilizando el servicio
+            var relaciones = await _serviciosPorProfesionalService.ObtenerRelacionesPorSucursalAsync(idSucursalInt);
+
+            // Maneja el caso en que no haya relaciones
+            if (relaciones == null || relaciones.Count == 0)
+            {
+                relaciones = new List<ServiciosPorProfesionalDTO>();
+            }
+
+            // Obtener lista de sucursales para el dropdown
+            var sucursales = await _sucursalService.GetSucursalesAsync();
+            ViewBag.Sucursales = sucursales;
+
+            // Retorna la vista con las relaciones
+            return View("~/Views/ABM/ABMServiciosPorProfesional.cshtml", relaciones);
         }
-        // Verifica que los servicios no sean null antes de utilizarlos
-        if (_serviciosPorProfesionalService == null || _sucursalService == null)
+        else
         {
-            return StatusCode(500, "Error en la configuración de los servicios.");
+            return Unauthorized("No tienes permisos para ver esta información.");
         }
-
-        // Obtener relaciones de servicios por profesional utilizando el servicio
-        var relaciones = await _serviciosPorProfesionalService.ObtenerRelacionesPorSucursalAsync(idSucursal);
-
-        // Maneja el caso en que no haya relaciones
-        if (relaciones == null || relaciones.Count == 0)
-        {
-            relaciones = new List<ServiciosPorProfesionalDTO>();
-        }
-
-        // Obtener lista de sucursales para el dropdown
-        var sucursales = await _sucursalService.GetSucursalesAsync();
-        ViewBag.Sucursales = sucursales;
-
-        // Retorna la vista con las relaciones
-        return View("~/Views/ABM/ABMServiciosPorProfesional.cshtml", relaciones);
+        
     }
 
-    public async Task<IActionResult> ObtenerProfesionalesYServicios()
+    public async Task<IActionResult> ObtenerProfesionalesYServicios(int idSucursal)
     {
         // Obtener la lista de profesionales y proyectar solo el nombre y apellido
-        var profesionales = await _usuarioService.GetTodosLosProfesionalesAsync();
+        var profesionales = await _usuarioService.GetProfesionalesBySucursalIdAsync(idSucursal);
         var profesionalesFiltrados = profesionales.Select(p => new
         {
             p.Id,

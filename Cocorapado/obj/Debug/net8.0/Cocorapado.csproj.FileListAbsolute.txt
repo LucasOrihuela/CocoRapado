@@ -541,3 +541,13 @@ C:\Users\lucas\GitHub\CocoRapado\Cocorapado\obj\Debug\net8.0\refint\Cocorapado.d
 C:\Users\lucas\GitHub\CocoRapado\Cocorapado\obj\Debug\net8.0\Cocorapado.pdb
 C:\Users\lucas\GitHub\CocoRapado\Cocorapado\obj\Debug\net8.0\Cocorapado.genruntimeconfig.cache
 C:\Users\lucas\GitHub\CocoRapado\Cocorapado\obj\Debug\net8.0\ref\Cocorapado.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\Google.Apis.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\Google.Apis.Auth.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\Google.Apis.Core.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\Google.Apis.Gmail.v1.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\MimeKit.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\System.Management.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll
+C:\Users\lucas\GitHub\CocoRapado\Cocorapado\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

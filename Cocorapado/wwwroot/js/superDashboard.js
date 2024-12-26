@@ -21,7 +21,7 @@ function updateChart() {
     const selectedTimeRange = document.getElementById('timeRange').value; // Obtiene el rango de tiempo seleccionado
 
     // Llamada AJAX para obtener los datos de ventas por todas las sucursales
-    fetch(`/Dashboard/GetSalesDataByBranch?timeRange=${selectedTimeRange}`)
+    fetch(`/Dashboard/GetSalesData?timeRange=${selectedTimeRange}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

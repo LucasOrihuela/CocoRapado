@@ -15,7 +15,7 @@ public class ServiciosPorProfesionalService
         _connection = connection ?? throw new ArgumentNullException(nameof(connection));
     }
 
-    public async Task<List<ServiciosPorProfesionalDTO>> ObtenerRelacionesPorSucursalAsync(int? idSucursal)
+    public async Task<List<ServiciosPorProfesionalDTO>> ObtenerRelacionesPorSucursalAsync(int idSucursal)
     {
         var relaciones = new List<ServiciosPorProfesionalDTO>();
 
@@ -36,17 +36,15 @@ public class ServiciosPorProfesionalService
 
             using (var command = sqlConnection.CreateCommand())
             {
-                command.CommandText = idSucursal.HasValue ? "sp_ObtenerRelacionesPorSucursal" : "sp_ObtenerRelaciones";
+                command.CommandText = "sp_ObtenerRelacionesPorSucursal";
                 command.CommandType = CommandType.StoredProcedure;
 
                 // Se agrega el parámetro solo si idSucursal no es nulo
-                if (idSucursal.HasValue)
-                {
-                    var parameter = command.CreateParameter();
-                    parameter.ParameterName = "@IdSucursal";
-                    parameter.Value = idSucursal.Value;
-                    command.Parameters.Add(parameter);
-                }
+
+                var parameter = command.CreateParameter();
+                parameter.ParameterName = "@IdSucursal";
+                parameter.Value = idSucursal;
+                command.Parameters.Add(parameter);
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "2itUBhCGaHrbehAGW1Gco4pWiCydOQvrBEoSEeA6ABw=",
+  "Hash": "WMaZyCvuZspasyZ/CC87ZUatHzwvaHJp9BOPoIFhYVI=",
   "Source": "Cocorapado",
   "BasePath": "_content/Cocorapado",
   "Mode": "Default",
@@ -2371,6 +2371,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\dashboard.js"
+    },
+    {
+      "Identity": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\js\\script-abmAdministradores.js",
+      "SourceId": "Cocorapado",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\",
+      "BasePath": "_content/Cocorapado",
+      "RelativePath": "js/script-abmAdministradores.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\script-abmAdministradores.js"
     },
     {
       "Identity": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\js\\script-abmProfesionalesPorSucursal.js",

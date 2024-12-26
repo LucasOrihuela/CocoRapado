@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Net.Mail;
 using System.Net;
+using Google;
+using Microsoft.Extensions.Configuration;
 
 public class CalendarioController : Controller
 {
@@ -14,13 +16,18 @@ public class CalendarioController : Controller
     private readonly TurnoService _turnosService;
     private readonly UsuarioService _usuarioService;
     private readonly ServicioService _servicioService;
+    private readonly IConfiguration _configuration;
+    private readonly EmailSender _emailSender; // Inyectar EmailSender
 
-    public CalendarioController(SucursalService sucursalService, TurnoService turnosService, UsuarioService usuarioService, ServicioService servicioService)
+    // Constructor actualizado para inyectar EmailSender
+    public CalendarioController(SucursalService sucursalService, TurnoService turnosService, UsuarioService usuarioService, ServicioService servicioService, IConfiguration configuration, EmailSender emailSender)
     {
         _sucursalService = sucursalService;
         _turnosService = turnosService;
         _usuarioService = usuarioService;
         _servicioService = servicioService;
+        _configuration = configuration;
+        _emailSender = emailSender; // Asignar EmailSender al campo
     }
 
     // Método para verificar si el usuario está autenticado y tiene el rol de Cliente
@@ -53,22 +60,17 @@ public class CalendarioController : Controller
         return View("Calendario");
     }
 
-
     public async Task<IActionResult> Calendario(int idSucursal, int idProfesional, string idsServicios)
     {
-
-        // Verificar si el usuario está autenticado
         if (!IsUserAuthenticatedAsClient())
         {
-            return RedirectToAction("Login", "Account"); // Redirigir al login si no está autenticado
+            return RedirectToAction("Login", "Account");
         }
 
-        // Convertir idsServicios a una lista de enteros
         var serviciosSeleccionados = idsServicios?.Split(',')
             .Select(int.Parse)
             .ToList();
 
-        // Pasar los datos necesarios a la vista
         ViewBag.IdSucursal = idSucursal;
         ViewBag.IdProfesional = idProfesional;
         ViewBag.ServiciosSeleccionados = serviciosSeleccionados;
@@ -105,17 +107,14 @@ public class CalendarioController : Controller
         return Json(duracionTotal);
     }
 
-
     [HttpGet]
     public async Task<JsonResult> GetEventos(int idSucursal, int idProfesional)
     {
-        // Verificar si el usuario está autenticado
         if (!IsUserAuthenticatedAsClient())
         {
-            return Json(new { error = "Unauthorized" }); // Devolver un error si no está autenticado
+            return Json(new { error = "Unauthorized" });
         }
 
-        // Obtener turnos para los eventos del calendario
         var turnos = await _turnosService.GetTurnosPorSucursalYProfesionalAsync(idSucursal, idProfesional);
 
         var eventos = turnos.Select(t => new
@@ -131,41 +130,29 @@ public class CalendarioController : Controller
     [HttpGet]
     public async Task<IActionResult> GetTurnoDetails(int idSucursal, int idProfesional, string idsServicios)
     {
-        // Obtener el nombre de la sucursal
         var nombreSucursal = await _sucursalService.GetNombreSucursalByIdAsync(idSucursal);
-
-        // Obtener telefono de la sucursal
         var telefonoSucursal = await _sucursalService.GetTelefonoSucursalByIdAsync(idSucursal);
-
-        // Obtener el nombre completo del profesional
         var nombreProfesional = await _usuarioService.GetNombreProfesionalesByIdAsync(idProfesional);
-
         var telefonoCliente = HttpContext.Session.GetString("UsuarioTelefono");
 
-        // Convertir `idsServicios` a una lista de enteros
         var listaIdsServicios = idsServicios.Split(',')
                                             .Select(id => int.TryParse(id, out var parsedId) ? parsedId : (int?)null)
                                             .Where(id => id.HasValue)
                                             .Select(id => id.Value)
                                             .ToList();
 
-        // Lista para almacenar los nombres de los servicios
         var nombresServicios = new List<string>();
-
         var precioMinTotal = new List<int>();
         var precioMaxTotal = new List<int>();
 
-        // Obtener los nombres de los servicios uno por uno
         foreach (var idServicio in listaIdsServicios)
         {
-
             var nombreServicio = await _servicioService.GetNombreServicioByIdAsync(idServicio);
             var preciosServicio = await _servicioService.GetPreciosServicioByIdAsync(idServicio);
 
             if (!string.IsNullOrEmpty(nombreServicio))
             {
                 nombresServicios.Add(nombreServicio);
-
             }
             if (!string.IsNullOrEmpty(preciosServicio))
             {
@@ -173,10 +160,8 @@ public class CalendarioController : Controller
                 precioMinTotal.Add(int.Parse(precios[0]));
                 precioMaxTotal.Add(int.Parse(precios[1]));
             }
-
         }
 
-        // Crear el objeto de respuesta
         var resultado = new
         {
             Sucursal = nombreSucursal,
@@ -191,22 +176,26 @@ public class CalendarioController : Controller
         return Json(resultado);
     }
 
-
     [HttpPost]
     public async Task<IActionResult> GuardarTurno(int idSucursal, int idProfesional, int duracionMin, string fecha, string hora, int precio)
     {
         try
         {
             var usuarioEmail = HttpContext.Session.GetString("UsuarioEmail");
-            var usuarioId = "";
-            usuarioId = HttpContext.Session.GetString("UsuarioId");
+            var usuarioId = HttpContext.Session.GetString("UsuarioId");
+
+            if (string.IsNullOrEmpty(usuarioEmail))
+            {
+                return Json(new { success = false, message = "No se encontró el correo del usuario." });
+            }
+
             int.TryParse(usuarioId, out var clienteId);
 
-            // Convertir fecha y hora a un DateTime para el turno
-            // Cambiando el formato a "dd/MM/yyyy HH:mm" para coincidir con la cadena de fecha
-            DateTime fechaTurno = DateTime.ParseExact($"{fecha} {hora}", "dd/MM/yyyy HH:mm", null);
+            if (!DateTime.TryParseExact($"{fecha} {hora}", "dd/MM/yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime fechaTurno))
+            {
+                return Json(new { success = false, message = "El formato de fecha y hora es incorrecto." });
+            }
 
-            // Guardar el turno en la base de datos
             int idTurno = await _turnosService.GuardarTurnoAsync(new Turno
             {
                 Fecha = fechaTurno,
@@ -223,15 +212,36 @@ public class CalendarioController : Controller
                 return Json(new { success = false, message = "Error al guardar el turno en la base de datos." });
             }
 
+            string asunto = "Confirmación de tu turno";
+            string cuerpo = $@"
+            Hola,
+            Tu turno ha sido reservado exitosamente.
+            Detalles del turno:
+            - Fecha: {fecha}
+            - Hora: {hora}
+            - Duración: {duracionMin} minutos
+            - Código de turno: {idTurno}
+
+            ¡Gracias por elegirnos!
+            ";
+
+            try
+            {
+                // Usar la instancia inyectada de EmailSender
+                await _emailSender.SendEmailAsync(usuarioEmail, asunto, cuerpo);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error al enviar email: {ex.Message}");
+                return Json(new { success = false, message = "Ocurrió un error al enviar el email de confirmación." });
+            }
+
             return Json(new { success = true, message = "Turno reservado exitosamente y email de confirmación enviado." });
         }
         catch (Exception ex)
         {
-            // Log de errores
-            Console.Error.WriteLine($"Error en GuardarTurno: {ex.Message}");
+            Console.Error.WriteLine($"Error en GuardarTurno: {ex.Message}\n{ex.StackTrace}");
             return Json(new { success = false, message = "Ocurrió un error al confirmar el turno." });
         }
     }
-
-
 }

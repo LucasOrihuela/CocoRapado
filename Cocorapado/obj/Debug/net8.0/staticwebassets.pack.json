@@ -253,6 +253,10 @@
       "PackagePath": "staticwebassets\\js\\dashboard.js"
     },
     {
+      "Id": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\js\\script-abmAdministradores.js",
+      "PackagePath": "staticwebassets\\js\\script-abmAdministradores.js"
+    },
+    {
       "Id": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\js\\script-abmProfesionalesPorSucursal.js",
       "PackagePath": "staticwebassets\\js\\script-abmProfesionalesPorSucursal.js"
     },

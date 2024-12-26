@@ -1,7 +1,4 @@
-CREATE DATABASE db_cocorapado
-GO
-USE db_cocorapado
-GO
+
 CREATE TABLE perfiles(
 id int PRIMARY KEY IDENTITY(1,1),
 rol varchar(50)

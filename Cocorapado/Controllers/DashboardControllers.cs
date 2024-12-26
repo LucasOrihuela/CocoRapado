@@ -52,7 +52,7 @@ namespace Cocorapado.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSalesData(string timeRange, int? idSucursal = null)
+        public async Task<IActionResult> GetSalesData(string timeRange)
         {
             try
             {

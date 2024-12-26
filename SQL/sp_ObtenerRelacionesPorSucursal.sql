@@ -11,5 +11,6 @@ BEGIN
 	FROM servicio_x_profesional sxp
 	INNER JOIN usuarios u ON u.id = sxp.id_profesional
 	INNER JOIN servicios s ON s.id = sxp.id_servicio
-	WHERE u.id_sucursal = @IdSucursal
+	INNER JOIN profesional_x_sucursal pxs ON pxs.id_profesional = u.id
+	WHERE pxs.id_sucursal = @IdSucursal
 END

@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\lucas\GitHub\CocoRapado\Cocorapado
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/lucas/GitHub/CocoRapado/Cocorapado/Views/ABM/ABMAdministradores.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQUJNXEFCTUFkbWluaXN0cmFkb3Jlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/lucas/GitHub/CocoRapado/Cocorapado/Views/ABM/ABMProfesionales.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQUJNXEFCTVByb2Zlc2lvbmFsZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

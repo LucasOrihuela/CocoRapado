@@ -361,6 +361,90 @@ namespace Cocorapado.Service
             return result > 0; // Devuelve verdadero si se eliminó al menos una fila
         }
 
+        public async Task<UsuarioDTO> ObtenerAdministradorPorIdAsync(int id)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@id_administrador", id);
+
+            string sql = "sp_ObtenerAdministradorPorId";
+
+            // Ejecutar el stored procedure y devolver el resultado
+            var resultado = await _connection.QuerySingleOrDefaultAsync<Usuario>(sql, parameters, commandType: CommandType.StoredProcedure);
+
+            if (resultado == null)
+            {
+                throw new KeyNotFoundException($"No se encontró un profesional con ID {id}.");
+            }
+
+            // Mapear el resultado a un UsuarioDTO antes de devolverlo
+            var usuarioDTO = new UsuarioDTO
+            {
+                Id = id,
+                IdPerfil = resultado.IdPerfil,
+                Correo = resultado.Correo,
+                Imagen = resultado.Imagen,
+                Nombre = resultado.Nombre,
+                Apellido = resultado.Apellido,
+                Telefono = resultado.Telefono,
+                FechaNacimiento = resultado.FechaNacimiento,
+                EstaLogueado = resultado.EstaLogueado
+            };
+
+            return usuarioDTO;
+        }
+
+        public async Task<bool> EditarAdministradorAsync(Usuario administrador) // Cambia a Task<bool>
+        {
+            // Genera el hash de la contraseña usando la propiedad Clave
+            var passwordHasher = new PasswordHasher<Usuario>();
+            administrador.PasswordHash = passwordHasher.HashPassword(administrador, administrador.Clave);
+
+            var result = await _connection.ExecuteAsync("sp_EditarAdministrador", new
+            {
+                id_profesional = administrador.Id,
+                Correo = administrador.Correo,
+                PasswordHash = administrador.PasswordHash,
+                Imagen = administrador.Imagen,
+                Nombre = administrador.Nombre,
+                Apellido = administrador.Apellido,
+                Telefono = administrador.Telefono,
+                FechaNacimiento = administrador.FechaNacimiento,
+                SecurityStamp = administrador.SecurityStamp
+            }, commandType: CommandType.StoredProcedure);
+
+            return result > 0; // Devuelve verdadero si se actualizó al menos una fila
+        }
+
+        public async Task<bool> EliminarAdministradorAsync(int idAdministrador)
+        {
+            var result = await _connection.ExecuteAsync("sp_EliminarAdministrador", new {id_administrador = idAdministrador }, commandType: CommandType.StoredProcedure);
+            return result > 0; // Devuelve verdadero si se eliminó al menos una fila
+        }
+
+        public async Task<int> GetSucursalByAdministradorIdAsync(int administradorId)
+        {
+            var query = "sp_ObtenerSucursalPorAdministrador";
+            var parameters = new { id_admin = administradorId };
+
+            var result = await _connection.QueryAsync<int>(query, parameters);
+
+            return result.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAdministradoresBySucursalIdAsync(int sucursalId)
+        {
+            var query = "sp_ObtenerAdministradoresPorIdSucursal";
+            var parameters = new { id_sucursal = sucursalId };
+            var result = await _connection.QueryAsync<Usuario>(query, parameters);
+            return result;
+        }
+
+        public async Task<IEnumerable<Usuario>> GetAdministradoresAsync()
+        {
+            var query = "sp_ObtenerAdministradores";
+            var result = await _connection.QueryAsync<Usuario>(query);
+            return result;
+        }
 
         public async Task<Usuario> ObtenerUsuarioPorCorreoAsync(string email)
         {
@@ -380,6 +464,7 @@ namespace Cocorapado.Service
             // Mapear el resultado a un Usuario antes de devolverlo
             var usuario = new Usuario
             {
+                Id = resultado.Id,
                 IdPerfil = resultado.IdPerfil,
                 Correo = resultado.Correo,
                 Imagen = resultado.Imagen,

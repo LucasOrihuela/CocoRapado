@@ -70,6 +70,7 @@ namespace Cocorapado.Controllers
 
             var telefonoCliente = await _usuarioService.GetTelefonoClienteByIdAsync(usuario.Id.ToString());
 
+
             // Almacenar el usuario en la sesión
             HttpContext.Session.SetString("UsuarioId", usuario.Id.ToString());
             HttpContext.Session.SetString("UsuarioEmail", usuario.Correo);
@@ -77,6 +78,9 @@ namespace Cocorapado.Controllers
             ViewBag.UsuarioId = HttpContext.Session.GetString("UsuarioId");
 
             var usuarioDTO = ConvertirAUsuarioDTO(usuario);
+
+            var idSucursal = await _usuarioService.GetSucursalByAdministradorIdAsync(usuarioDTO.Id);
+            HttpContext.Session.SetString("AdministradorSucursal", idSucursal.ToString());
 
             // Redirigir según el rol del usuario
             var perfil = await _usuarioService.ObtenerPerfilPorUsuarioAsync(usuarioDTO.Id);
