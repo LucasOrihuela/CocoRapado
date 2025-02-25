@@ -33,6 +33,15 @@
     <div class="login-container">
         <div class="container">
             <h2>Inicio de Sesión</h2>
+
+            <!-- Mostrar errores si existen -->
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div class="alert alert-danger">
+                    @error.ErrorMessage
+                </div>
+            }
+
             <form method="post" asp-action="Login">
                 <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
                 <div class="form-group">

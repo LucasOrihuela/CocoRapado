@@ -161,6 +161,10 @@
       "PackagePath": "staticwebassets\\assets\\img\\vector-2001.svg"
     },
     {
+      "Id": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
       "Id": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\css\\styles-abmSucursales.css",
       "PackagePath": "staticwebassets\\css\\styles-abmSucursales.css"
     },

@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Controllers",
+    "\\Service"
   ],
   "PreviewInSolutionExplorer": false
 }

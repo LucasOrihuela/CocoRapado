@@ -1,10 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Cocorapado",
+    "\\Cocorapado\\Controllers",
     "\\Cocorapado\\Service",
     "\\Cocorapado\\Views",
-    "\\Cocorapado\\Views\\Admin"
+    "\\Cocorapado\\Views\\ABM",
+    "\\Cocorapado\\Views\\Account",
+    "\\Cocorapado\\Views\\Home",
+    "\\Cocorapado\\wwwroot",
+    "\\Cocorapado\\wwwroot\\js"
   ],
-  "SelectedNode": "\\Cocorapado.sln",
+  "SelectedNode": "\\Cocorapado\\Views\\Account\\MiCuenta.cshtml",
   "PreviewInSolutionExplorer": false
 }

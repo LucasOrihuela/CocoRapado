@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WMaZyCvuZspasyZ/CC87ZUatHzwvaHJp9BOPoIFhYVI=",
+  "Hash": "wCMH5cQlc0SPigVGptzgAmgUHCbvO6zycL0eRPpRWjk=",
   "Source": "Cocorapado",
   "BasePath": "_content/Cocorapado",
   "Mode": "Default",
@@ -1934,6 +1934,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\img\\vector-2001.svg"
+    },
+    {
+      "Identity": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\css\\site.css",
+      "SourceId": "Cocorapado",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\",
+      "BasePath": "_content/Cocorapado",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
       "Identity": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\wwwroot\\css\\styles-abmSucursales.css",
