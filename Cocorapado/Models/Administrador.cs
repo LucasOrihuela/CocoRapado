@@ -2,6 +2,6 @@
 {
     public class Administrador : Usuario
     {
-        public SucursalDTO SucursalDTO { get; set; } = new SucursalDTO();
+        public int IdSucursal { get; set; }
     }
 }

@@ -1,12 +1,134 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\lucas\\GitHub\\CocoRapado\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\controllers\\micuentacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\controllers\\micuentacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\controllers\\abmadministradorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\controllers\\abmadministradorescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\service\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\service\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\models\\administrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\models\\administrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|c:\\users\\lucas\\github\\cocorapado\\cocorapado\\views\\abm\\abmadministradores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D369C71E-19B3-44B1-8CE7-B210D754A183}|Cocorapado\\Cocorapado.csproj|solutionrelative:cocorapado\\views\\abm\\abmadministradores.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MiCuentaController.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\MiCuentaController.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Controllers\\MiCuentaController.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\MiCuentaController.cs",
+              "RelativeToolTip": "Cocorapado\\Controllers\\MiCuentaController.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAgwBoAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-10T14:21:56.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Program.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Program.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Program.cs",
+              "RelativeToolTip": "Cocorapado\\Program.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAIAwwD8AAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-07T16:58:24.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UsuarioService.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\UsuarioService.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Service\\UsuarioService.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Service\\UsuarioService.cs",
+              "RelativeToolTip": "Cocorapado\\Service\\UsuarioService.cs",
+              "ViewState": "AQIAAKkBAAAAAAAAAAAhwL8BAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T18:22:33.62Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Models\\Usuario.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Models\\Usuario.cs",
+              "RelativeToolTip": "Cocorapado\\Models\\Usuario.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T17:48:50.627Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Administrador.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Models\\Administrador.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Models\\Administrador.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Models\\Administrador.cs",
+              "RelativeToolTip": "Cocorapado\\Models\\Administrador.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T17:48:47.605Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ABMAdministradoresController.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\ABMAdministradoresController.cs",
+              "RelativeDocumentMoniker": "Cocorapado\\Controllers\\ABMAdministradoresController.cs",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Controllers\\ABMAdministradoresController.cs",
+              "RelativeToolTip": "Cocorapado\\Controllers\\ABMAdministradoresController.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAowCEAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T17:36:18.364Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ABMAdministradores.cshtml",
+              "DocumentMoniker": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\ABM\\ABMAdministradores.cshtml",
+              "RelativeDocumentMoniker": "Cocorapado\\Views\\ABM\\ABMAdministradores.cshtml",
+              "ToolTip": "C:\\Users\\lucas\\GitHub\\CocoRapado\\Cocorapado\\Views\\ABM\\ABMAdministradores.cshtml",
+              "RelativeToolTip": "Cocorapado\\Views\\ABM\\ABMAdministradores.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-06T17:36:08.692Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

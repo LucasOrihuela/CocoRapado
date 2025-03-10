@@ -1,0 +1,119 @@
+body {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.title {
+    color: #ffc107;
+}
+
+.card {
+    background-color: #2b2b2b;
+    border: 1px solid #444;
+    border-radius: 10px;
+}
+
+.card-header {
+    color: #e0e0e0;
+    font-weight: bold;
+}
+
+.checkbox-label, .professional-name {
+    color: #e0e0e0;
+}
+
+.btn-primary {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #1e1e1e;
+}
+
+    .btn-primary:hover {
+        background-color: #d4af37;
+        border-color: #d4af37;
+    }
+
+.service-checkbox:checked + .checkbox-label {
+    color: #ffc107;
+}
+
+#alertContainer {
+    position: fixed; /* Posición fija */
+    bottom: 20px; /* Distancia desde la parte inferior */
+    right: 20px; /* Distancia desde la derecha */
+    z-index: 1050; /* Asegúrate de que se muestre encima de otros elementos */
+    width: auto; /* Puedes ajustar el ancho según tus necesidades */
+    max-width: 300px; /* Máximo ancho para que no sea demasiado grande */
+}
+
+.btn-gold {
+    background-color: #ffc107; /* Color dorado */
+    color: black; /* Color del texto */
+}
+
+.border {
+    border: 0.5px solid #343a40ab !important;
+}
+/* Aseguramos que el checkbox se mantenga dentro del borde */
+.form-check-input {
+    margin: 0; /* Elimina márgenes por defecto */
+    padding: 0; /* Elimina cualquier padding adicional */
+    box-sizing: border-box; /* Asegura que el borde esté dentro del tamaño del contenedor */
+}
+
+.form-check-label {
+    margin-left: 2rem;
+}
+
+/* En el caso de que desees ajustar el tamaño del checkbox */
+.service-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.promo-card {
+    background-color: #333;
+    border: 5px solid #ffc107;
+    width: 70rem;
+}
+
+.promo-card-header {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+    .promo-card-header span {
+        font-size: 20px;
+        font-weight: bold;
+        color: #ffc107;
+        margin-left: 20px;
+    }
+
+.promo-card-body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.promo-btn {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    width: 70%;
+    transition: background-color 0.3s ease;
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+
+    /* Estilos responsivos */
+    @media (max-width: 768px) {
+        .promo-card-header {
+            font-size: 1rem;
+        }
+    }

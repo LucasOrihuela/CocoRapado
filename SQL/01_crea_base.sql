@@ -59,7 +59,6 @@ duracion_min int,
 precio_min int,
 precio_max int,
 imagen varchar(500)
-CONSTRAINT FK_Servicio_Sucursal FOREIGN KEY (id_sucursal) REFERENCES sucursales(id)
 )
 
 GO

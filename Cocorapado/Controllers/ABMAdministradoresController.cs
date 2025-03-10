@@ -5,8 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using System.Numerics;
+using Microsoft.AspNetCore.Http;
 
 namespace Cocorapado.Controllers
 {
@@ -25,32 +24,20 @@ namespace Cocorapado.Controllers
 
         private bool IsUserAuthenticatedAsSuperAdmin()
         {
-            var usuarioId = HttpContext.Session.GetString("UsuarioId");
             var usuarioRol = HttpContext.Session.GetString("UsuarioRol");
-
-            return !string.IsNullOrEmpty(usuarioId) && usuarioRol == "SuperAdministrador";
+            return usuarioRol == "SuperAdministrador";
         }
 
-        // Acción Index para listar administradores
         public async Task<IActionResult> Index()
         {
             if (!IsUserAuthenticatedAsSuperAdmin())
             {
                 return RedirectToAction("Login", "Account");
             }
+
             try
             {
-                IEnumerable<Usuario> administradores = Enumerable.Empty<Usuario>();
-                var idString = HttpContext.Session.GetString("UsuarioId");
-                int.TryParse(idString, out var idAdmin);
-                var sucursal = await _sucursalService.ObtenerSucursalPorIdAdmin(idAdmin);
-                administradores = await _usuarioService.GetAdministradoresAsync();
-
-                if (administradores == null || !administradores.Any())
-                {
-                    return NotFound("No hay administradores registrados.");
-                }
-
+                var administradores = await _usuarioService.GetAdministradoresAsync();
                 return View("~/Views/ABM/ABMAdministradores.cshtml", administradores);
             }
             catch (Exception ex)
@@ -59,41 +46,32 @@ namespace Cocorapado.Controllers
             }
         }
 
-        // Acción para crear un nuevo Administrador
-
         [HttpPost]
         public async Task<IActionResult> CrearAdministrador(Usuario nuevoUsuario)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    var idRolAdministrador = await _perfilService.ObtenerIdPorRolAsync("Administrador");
-
-                    if (idRolAdministrador == null)
-                    {
-                        return Json(new { success = false, message = "El rol 'Administrador' no fue encontrado." });
-                    }
-
-                    nuevoUsuario.Perfil = new Perfil
-                    {
-                        Id = idRolAdministrador.Value,
-                        Rol = "Administrador"
-                    };
-                    nuevoUsuario.IdPerfil = idRolAdministrador.Value;
-
-                    await _usuarioService.CrearUsuarioAsync(nuevoUsuario);
-                    return Json(new { success = true, message = "Administrador creado exitosamente." });
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { success = false, message = ex.Message });
-                }
+                return Json(new { success = false, message = "Datos inválidos." });
             }
 
-            return Json(new { success = false, message = "Datos inválidos." });
-        }
+            try
+            {
+                var idRolAdministrador = await _perfilService.ObtenerIdPorRolAsync("Administrador");
+                if (idRolAdministrador == null)
+                {
+                    return Json(new { success = false, message = "El rol 'Administrador' no fue encontrado." });
+                }
 
+                nuevoUsuario.IdPerfil = idRolAdministrador.Value;
+                await _usuarioService.CrearUsuarioAsync(nuevoUsuario);
+
+                return Json(new { success = true, message = "Administrador creado exitosamente." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
@@ -107,75 +85,64 @@ namespace Cocorapado.Controllers
                 }
 
                 var result = await _usuarioService.EliminarAdministradorAsync(id);
-                return result
-                    ? Json(new { success = true, message = "El administrador se eliminó correctamente." })
-                    : Json(new { success = false, message = "No se pudo eliminar el administrador." });
+                return Json(new { success = result, message = result ? "Administrador eliminado correctamente." : "No se pudo eliminar el administrador." });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = $"Ocurrió un error: {ex.Message}" });
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(UsuarioDTO administrador)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    // Obtener el administrador existente de manera asincrónica
-                    var administradorExistente = await _usuarioService.ObtenerAdministradorPorIdAsync(administrador.Id);
-
-                    if (administradorExistente == null)
-                    {
-                        return Json(new { success = false, message = "Administrador no encontrado." });
-                    }
-
-                    // Mapear los datos del DTO hacia la entidad Usuario para editar
-                    var administradorModificado = new Usuario
-                    {
-                        Id = administrador.Id.ToString(),
-                        IdPerfil = administrador.IdPerfil,
-                        Clave = administrador.Clave,
-                        Correo = administrador.Correo,
-                        Imagen = administrador.Imagen,
-                        Nombre = administrador.Nombre,
-                        Apellido = administrador.Apellido,
-                        Telefono = administrador.Telefono,
-                        FechaNacimiento = administrador.FechaNacimiento,
-                        EstaLogueado = administrador.EstaLogueado,
-                    };
-
-                    // Editar al administrador de manera asincrónica
-                    var result = await _usuarioService.EditarAdministradorAsync(administradorModificado);
-
-                    return Json(new
-                    {
-                        success = result,
-                        message = result ? "El administrador se editó correctamente." : "No se pudo editar el administrador."
-                    });
-                }
-                catch (Exception ex)
-                {
-                    return Json(new { success = false, message = $"Ocurrió un error: {ex.Message}" });
-                }
+                return Json(new { success = false, message = "Datos del administrador no son válidos." });
             }
 
-            // Retornar un error si el modelo no es válido
-            return Json(new { success = false, message = "Datos del administrador no son válidos." });
+            try
+            {
+                var administradorExistente = await _usuarioService.ObtenerAdministradorPorIdAsync(administrador.Id);
+                if (administradorExistente == null)
+                {
+                    return Json(new { success = false, message = "Administrador no encontrado." });
+                }
+
+                var administradorModificado = new Usuario
+                {
+                    Id = administrador.Id.ToString(),
+                    IdPerfil = administrador.IdPerfil,
+                    Clave = administrador.Clave,
+                    Correo = administrador.Correo,
+                    Imagen = administrador.Imagen,
+                    Nombre = administrador.Nombre,
+                    Apellido = administrador.Apellido,
+                    Telefono = administrador.Telefono,
+                    FechaNacimiento = administrador.FechaNacimiento,
+                    EstaLogueado = administrador.EstaLogueado,
+                };
+
+                var result = await _usuarioService.EditarAdministradorAsync(administradorModificado);
+                return Json(new { success = result, message = result ? "Administrador editado correctamente." : "No se pudo editar el administrador." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
         }
-
-
 
         [HttpGet]
         public async Task<JsonResult> ObtenerAdministrador(int id)
         {
-            var administrador = await _usuarioService.ObtenerAdministradorPorIdAsync(id);
-
-            if (administrador != null)
+            try
             {
-                // Devolver el objeto en formato JSON con propiedades en minúscula
+                var administrador = await _usuarioService.ObtenerAdministradorPorIdAsync(id);
+                if (administrador == null)
+                {
+                    return Json(new { success = false, message = "Administrador no encontrado." });
+                }
+
                 return Json(new
                 {
                     idPerfil = administrador.IdPerfil,
@@ -188,8 +155,10 @@ namespace Cocorapado.Controllers
                     estaLogueado = administrador.EstaLogueado
                 });
             }
-
-            return Json(new { success = false, message = "Administrador no encontrado." });
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
         }
     }
 }

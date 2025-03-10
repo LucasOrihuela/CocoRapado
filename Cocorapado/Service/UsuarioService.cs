@@ -439,12 +439,13 @@ namespace Cocorapado.Service
             return result;
         }
 
-        public async Task<IEnumerable<Usuario>> GetAdministradoresAsync()
+        public async Task<IEnumerable<Administrador>> GetAdministradoresAsync()
         {
             var query = "sp_ObtenerAdministradores";
-            var result = await _connection.QueryAsync<Usuario>(query);
+            var result = await _connection.QueryAsync<Administrador>(query);
             return result;
         }
+
 
         public async Task<Usuario> ObtenerUsuarioPorCorreoAsync(string email)
         {

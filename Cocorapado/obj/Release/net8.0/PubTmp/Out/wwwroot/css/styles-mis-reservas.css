@@ -1,0 +1,77 @@
+﻿/* Fondo de la página */
+html, body {
+    height: 100%; /* Asegura que el HTML y el body ocupen el 100% de la altura */
+    margin: 0; /* Elimina márgenes predeterminados */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Apila los elementos en columna: header, main, footer */
+    background-color: #222;
+    color: white; /* Asegura que el texto en la página sea blanco */
+}
+
+.content {
+    flex: 1; /* Hace que el contenido principal ocupe el espacio disponible */
+}
+
+/* Footer */
+footer {
+    margin-top: auto; /* Empuja el footer hacia abajo si hay espacio sobrante */
+    background-color: #333; /* Fondo oscuro para el footer */
+    color: white; /* Texto blanco */
+    text-align: center; /* Centra el texto */
+    padding: 1rem 0; /* Espaciado interno */
+}
+
+/* Encabezado */
+.mis-reservas-titulo {
+    color: #ffc107;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Pestañas (Tabs) */
+.nav-tabs .nav-link {
+    color: white; /* Color de texto para las pestañas */
+    border: 1px solid #ffc107; /* Borde de las pestañas */
+    background-color: #333;
+}
+
+    .nav-tabs .nav-link.active {
+        background-color: #ffc107;
+        color: #333;
+        font-weight: bold;
+    }
+
+/* Tabla */
+.mis-reservas-tabla {
+    background-color: #333; /* Fondo de la tabla */
+    color: white; /* Color de texto en la tabla */
+}
+
+    .mis-reservas-tabla thead {
+        background-color: #333; /* Fondo del encabezado de la tabla */
+        color: white; /* Color de texto en el encabezado */
+    }
+
+    .mis-reservas-tabla tbody tr:hover {
+        background-color: #ffc107; /* Fondo de las filas cuando se pasa el ratón */
+        color: #333; /* Color del texto cuando se pasa el ratón */
+    }
+
+/* Mensaje sin reservas */
+.no-reservas {
+    color: #333;
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.bg-light-red {
+    background-color: #f8d7da !important;
+}
+
+#alertContainer .alert {
+    position: relative; /* Asegura que la alerta se posicione adecuadamente */
+    display: block; /* Evita que se estire si hay algún estilo global */
+}

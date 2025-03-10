@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: stretch;
+    font-family: 'Arial', sans-serif;
+    background-color: #222;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    z-index: 10;
+}
+
+.container {
+    margin-top: 60px;
+    background-color: #333;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 400px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #ffc107;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #ffc107;
+    color: #222;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+    .btn:hover {
+        opacity: 1;
+    }
+
+.links {
+    margin-top: 20px;
+    color: #888;
+}
+
+    .links a {
+        color: #ffc107;
+        text-decoration: none;
+    }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+.navbar {
+    background-color: #333 !important;
+    color: #fff;
+    padding: 0.5rem;
+    text-align: center;
+    height: 60px; /* Esto mantiene la altura de la navbar */
+    border-bottom: 1px solid #333;
+    position: fixed; /* Mantiene la navbar fija en la parte superior */
+    width: 100%; /* Ocupa todo el ancho */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+    .navbar-brand img {
+        width: 40px;
+        height: 40px;
+        margin-right: 1rem;
+        object-fit: contain;
+    }
+
+        .navbar-brand img:last-child {
+            width: 120px;
+            height: 40px;
+            margin-left: 10px;
+            object-fit: contain;
+        }
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+    .navbar-nav li {
+        margin-right: 1rem;
+    }
+
+    .navbar-nav a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+        .navbar-nav a:hover {
+            color: #ccc;
+        }
+
+.dropdown-menu {
+    background-color: #333;
+    padding: 1rem;
+}
+
+    .dropdown-menu a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+        .dropdown-menu a:hover {
+            color: #ccc;
+        }
+
+.navbar-toggler-icon {
+    font-size: 1.5rem;
+}
+
+.dropdown-toggle {
+    font-size: 1.5rem;
+}
+
+    .dropdown-toggle i {
+        font-size: 2rem;
+        color: #efb810;
+    }
